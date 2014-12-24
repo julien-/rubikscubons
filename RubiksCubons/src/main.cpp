@@ -3,7 +3,7 @@
 #include <cstdlib>
 
 #include "Couleur.h"
-#include "Cube.h"
+#include "RubikCube.h"
 #include "Point.h"
 
 
@@ -32,14 +32,14 @@ void affichage()
   glRotatef(-angley,1.0,0.0,0.0);
   glRotatef(-anglex,0.0,1.0,0.0);
   /* Dessin du cube */
-
+/*
   //Creation des 6 différentes couleurs
   Couleur *rouge = new Couleur(1.0, 0.0, 0.0);
   Couleur *vert = new Couleur(0.0, 1.0, 0.0);
   Couleur *bleu = new Couleur(0.0, 0.0, 1.0);
   Couleur *jaune = new Couleur(1.0, 1.0, 0.0);
   Couleur *blanc = new Couleur(1.0, 1.0, 1.0);
-  Couleur *orange = new Couleur(1.0, 0.7, 0.0);
+  Couleur *orange = new Couleur(1.0, 0.5, 0.0);
   //Creation d'un cube
   Cube *c =  new Cube(
   		Point(-0.5, -0.5, 0.5),
@@ -56,8 +56,11 @@ void affichage()
   		*jaune,
   		*blanc,
   		*orange);
+*/
 
-  c->afficher();
+  //Creation de notre RubikCube
+RubikCube *rc = new RubikCube(3);
+rc->afficher();
   /*for (i=0;i<6;i++)
     {
       glBegin(GL_POLYGON);
@@ -67,9 +70,9 @@ void affichage()
 	  glVertex3f(p[f[i][j]].x,p[f[i][j]].y,p[f[i][j]].z);
 	}
       glEnd();
-    }*/
+    }
   glFlush();
-
+*/
   /* On echange les buffers */
   glutSwapBuffers();
 }
