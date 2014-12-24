@@ -1,5 +1,5 @@
-#include <freeglut_std.h>
-#include <gl.h>
+#include <GL/freeglut_std.h>
+#include <GL/gl.h>
 #include <cstdlib>
 
 #include "Couleur.h"
@@ -7,28 +7,6 @@
 #include "Point.h"
 
 
-Couleur rouge = Couleur(1.0, 0.0, 0.0);
-Couleur vert = Couleur(0.0, 1.0, 0.0);
-Couleur bleu = Couleur(0.0, 0.0, 1.0);
-Couleur jaune = Couleur(1.0, 1.0, 0.0);
-Couleur blanc = Couleur(1.0, 1.0, 1.0);
-Couleur orange = Couleur(1.0, 0.7, 0.0);
-
-Cube c =  Cube(
-		Point(-0.5, -0.5, 0.5),
-		Point(-0.5, 0.5, 0.5),
-		Point(0.5, 0.5, 0.5),
-		Point(0.5,-0.5, 0.5),
-		Point(-0.5,-0.5,-0.5),
-		Point(-0.5, 0.5,-0.5),
-		Point(0.5, 0.5,-0.5),
-		Point(0.5,-0.5,-0.5),
-		Couleur(rouge),
-		Couleur(vert),
-		Couleur(bleu),
-		Couleur(jaune),
-		Couleur(blanc),
-		Couleur(orange));
 
 char presse;
 int anglex,angley,x,y,xold,yold;
@@ -41,33 +19,7 @@ void idle();
 void mouse(int bouton,int etat,int x,int y);
 void mousemotion(int x,int y);
 
-int main(int argc,char **argv)
-{
-  /* initialisation de glut et creation
-     de la fenetre */
-  glutInit(&argc,argv);
-  glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-  glutInitWindowPosition(200,200);
-  glutInitWindowSize(500,500);
-  glutCreateWindow("RubiksCubons");
 
-  /* Initialisation d'OpenGL */
-  glClearColor(0.0,0.0,0.0,0.0);
-  glColor3f(1.0,1.0,1.0);
-  glPointSize(2.0);
-  glEnable(GL_DEPTH_TEST);
-
-  /* enregistrement des fonctions de rappel */
-  glutDisplayFunc(affichage);
-  glutKeyboardFunc(clavier);
-  glutReshapeFunc(reshape);
-  glutMouseFunc(mouse);
-  glutMotionFunc(mousemotion);
-
-  /* Entree dans la boucle principale glut */
-  glutMainLoop();
-  return 0;
-}
 
 
 void affichage()
@@ -80,7 +32,32 @@ void affichage()
   glRotatef(-angley,1.0,0.0,0.0);
   glRotatef(-anglex,0.0,1.0,0.0);
   /* Dessin du cube */
-  c.afficher();
+
+  //Creation des 6 différentes couleurs
+  Couleur *rouge = new Couleur(1.0, 0.0, 0.0);
+  Couleur *vert = new Couleur(0.0, 1.0, 0.0);
+  Couleur *bleu = new Couleur(0.0, 0.0, 1.0);
+  Couleur *jaune = new Couleur(1.0, 1.0, 0.0);
+  Couleur *blanc = new Couleur(1.0, 1.0, 1.0);
+  Couleur *orange = new Couleur(1.0, 0.7, 0.0);
+  //Creation d'un cube
+  Cube *c =  new Cube(
+  		Point(-0.5, -0.5, 0.5),
+  		Point(-0.5, 0.5, 0.5),
+  		Point(0.5, 0.5, 0.5),
+  		Point(0.5,-0.5, 0.5),
+  		Point(-0.5,-0.5,-0.5),
+  		Point(-0.5, 0.5,-0.5),
+  		Point(0.5, 0.5,-0.5),
+  		Point(0.5,-0.5,-0.5),
+  		*rouge,
+  		*vert,
+  		*bleu,
+  		*jaune,
+  		*blanc,
+  		*orange);
+
+  c->afficher();
   /*for (i=0;i<6;i++)
     {
       glBegin(GL_POLYGON);
@@ -163,3 +140,29 @@ void mousemotion(int x,int y)
     xold=x; /* sauvegarde des valeurs courante de le position de la souris */
     yold=y;
   }
+int main(int argc,char **argv)
+{
+  /* initialisation de glut et creation de la fenetre */
+  glutInit(&argc,argv);
+  glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+  glutInitWindowPosition(200,200);
+  glutInitWindowSize(500,500);
+  glutCreateWindow("RubiksCubons");
+
+  /* Initialisation d'OpenGL */
+  glClearColor(0.0,0.0,0.0,0.0);
+  glColor3f(1.0,1.0,1.0);
+  glPointSize(2.0);
+  glEnable(GL_DEPTH_TEST);
+
+  /* enregistrement des fonctions de rappel */
+  glutDisplayFunc(affichage);
+  glutKeyboardFunc(clavier);
+  glutReshapeFunc(reshape);
+  glutMouseFunc(mouse);
+  glutMotionFunc(mousemotion);
+
+  /* Entree dans la boucle principale glut */
+  glutMainLoop();
+  return 0;
+}

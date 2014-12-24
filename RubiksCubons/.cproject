@@ -25,7 +25,7 @@
 								<option id="gnu.cpp.compiler.mingw.exe.debug.option.optimization.level.1706024379" name="Optimization Level" superClass="gnu.cpp.compiler.mingw.exe.debug.option.optimization.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.mingw.exe.debug.option.debugging.level.1624598030" name="Debug Level" superClass="gnu.cpp.compiler.mingw.exe.debug.option.debugging.level" useByScannerDiscovery="false" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.23901944" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" useByScannerDiscovery="false" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;C:\MinGW\include\GL&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\MinGW\include&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1395717052" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -41,7 +41,7 @@
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="glu32"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="opengl32"/>
 								</option>
-								<option id="gnu.cpp.link.option.paths.345120568" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
+								<option id="gnu.cpp.link.option.paths.345120568" name="Library search path (-L)" superClass="gnu.cpp.link.option.paths" valueType="libPaths">
 									<listOptionValue builtIn="false" value="&quot;C:\MinGW\lib&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1239948239" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">

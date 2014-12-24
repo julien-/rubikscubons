@@ -7,9 +7,10 @@
 
 #ifndef FACE_H_
 #define FACE_H_
-using namespace std;
 
-#include <gl.h>
+
+
+#include <GL/gl.h>
 #include "Point.h"
 #include "Couleur.h"
 
