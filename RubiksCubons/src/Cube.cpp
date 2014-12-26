@@ -56,8 +56,21 @@ Face Cube::getFace(Face f) {
 	return _tbFace[i];
 	*/
 }
-
-Cube::Cube(Point p0, Point p1, Point p2, Point p3, Point p4, Point p5, Point p6, Point p7, Couleur c0, Couleur c1, Couleur c2, Couleur c3, Couleur c4, Couleur c5) {
+/*
+Cube::Cube(GLfloat x, GLfloat y, GLfloat z){
+	//avant
+	Point(-largCube + decalage, -largCube + decalage, largCube + decalage),	//haut gauche
+	Point(-largCube + decalage, largCube + decalage, largCube + decalage),	//haut droite
+	Point(largCube + decalage, largCube + decalage, largCube + decalage),		//bas droite
+	Point(largCube + decalage, -largCube + decalage, largCube + decalage),	//bas gauche
+	//arriere
+	Point(-largCube + decalage, -largCube + decalage, -largCube + decalage),	//haut gauche
+	Point(-largCube + decalage, largCube + decalage, -largCube + decalage),	//haut droite
+	Point(largCube + decalage, largCube + decalage, -largCube + decalage),	//bas droite
+	Point(largCube + decalage, -largCube + decalage, -largCube + decalage),	//bas gauche
+	tbCouleur[0], tbCouleur[1], tbCouleur[2], tbCouleur[3], tbCouleur[4], tbCouleur[5]);
+}*/
+Cube::Cube(float size, Point p0, Couleur c0, Couleur c1, Couleur c2, Couleur c3, Couleur c4, Couleur c5) {
 	//   p4---------------p5
     //  /|               / |
 	// / |              /  |
@@ -69,13 +82,20 @@ Cube::Cube(Point p0, Point p1, Point p2, Point p3, Point p4, Point p5, Point p6,
 	//| /              | /
 	//|/               |/
 	//p3---------------p2
+	Point *p1 = new Point(p0.getX()+size, 	p0.getY(), 			p0.getZ());
+	Point *p2 = new Point(p1->getX(), 		p1->getY()-size, 	p0.getZ());
+	Point *p3 = new Point(p0.getX(), 		p2->getY(), 		p0.getZ());
+	Point *p4 = new Point(p0.getX(), 		p0.getY(), 			p0.getZ()+size);
+	Point *p5 = new Point(p1->getX(), 		p1->getY(), 		p4->getZ());
+	Point *p6 = new Point(p2->getX(), 		p2->getY(), 		p4->getZ());
+	Point *p7 = new Point(p3->getX(), 		p3->getY(), 		p4->getZ());
 
-	_tbFace[0] = Face(p0, p1, p2, p3, c0);	//devant nous
-	_tbFace[1] = Face(p0, p1, p5, p4, c1);//haut
-	_tbFace[2] = Face(p1, p5, p6, p2, c2);//droite
-	_tbFace[3] = Face(p2, p6, p7, p3, c3);//bas
-	_tbFace[4] = Face(p3, p0, p4, p7, c4);//gauche
-	_tbFace[5] = Face(p4, p5, p6, p7, c5);//arriere
+	_tbFace[0] = Face(p0, *p1, *p2, *p3, c0);	//devant nous
+	_tbFace[1] = Face(p0, *p1, *p5, *p4, c1);//haut
+	_tbFace[2] = Face(*p1, *p5, *p6, *p2, c2);//droite
+	_tbFace[3] = Face(*p2, *p6, *p7, *p3, c3);//bas
+	_tbFace[4] = Face(*p3, p0, *p4, *p7, c4);//gauche
+	_tbFace[5] = Face(*p4, *p5, *p6, *p7, c5);//arriere
 }
 
 void Cube::afficher() {

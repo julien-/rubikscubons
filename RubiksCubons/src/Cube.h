@@ -18,7 +18,8 @@ private:
 	Face _tbFace[6];
 public:
 	Cube();
-	Cube(Point p0, Point p1, Point p2, Point p3, Point p4, Point p5, Point p6, Point p7, Couleur c0, Couleur c1, Couleur c2, Couleur c3, Couleur c4, Couleur c5);
+	Cube(GLfloat x, GLfloat y, GLfloat z);
+	Cube(float size, Point p0,Couleur c0, Couleur c1, Couleur c2, Couleur c3, Couleur c4, Couleur c5);
 	virtual ~Cube();
 	const Face* getTbFace() const;
 

@@ -6,10 +6,12 @@
 
 class Tranche {
 private:
-	Cube _tbCube[9];
+	Cube *_tbCube[];
 public:
 	Tranche();
+	Tranche(int axe, int size, Couleur tbCouleur[]);//axe =   0:x  1:y   2:z
 	virtual ~Tranche();
+	void afficher();
 };
 
 #endif /* TRANCHE_H_ */

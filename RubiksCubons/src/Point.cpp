@@ -9,6 +9,12 @@
 Point::Point() {
 	// TODO Auto-generated constructor stub
 }
+
+Point::Point(const Point &p) {
+	_x = p._x;
+	_y = p._y;
+	_z = p._z;
+}
 Point::Point(GLfloat x, GLfloat y, GLfloat z){
 	_x = x;
 	_y = y;
