@@ -60,7 +60,7 @@ void affichage()
 	  Couleur *orange = new Couleur(1.0, 0.5, 0.0);
 
 	  //Creation de notre RubikCube
-	  RubikCube *rc = new RubikCube(2, *rouge, *vert, *bleu, *jaune, *blanc, *orange);
+	  RubikCube *rc = new RubikCube(3, *rouge, *vert, *bleu, *jaune, *blanc, *orange);
 	  rc->afficher();
 
 	  /* On echange les buffers */
