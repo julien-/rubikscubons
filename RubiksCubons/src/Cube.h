@@ -15,13 +15,13 @@ using namespace std;
 
 class Cube {
 private:
-	Face *_tbFace[6];
+	vector<Face*> _tbFace;
 public:
 	Cube();
 	Cube(GLfloat x, GLfloat y, GLfloat z);
 	Cube(float size, Point p0);
 	virtual ~Cube();
-	const Face* getTbFace() const;
+	const vector<Face*> getTbFace() const;
 
 	Face getFace(int i);
 	Face getFace(Point p1, Point p2, Point p3, Point p4);

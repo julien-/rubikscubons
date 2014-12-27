@@ -7,7 +7,7 @@ class RubikCube {
 private:
 	int _size;
 	//Tranche* _tbTranche[];//pointeur de tableaux de tranches (3  car x,y,z)
-	Cube *_tbCube[];
+	vector<Cube *>_tbCube;
 public:
 	RubikCube();
 	RubikCube(int size);

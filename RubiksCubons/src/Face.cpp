@@ -1,13 +1,4 @@
 #include <cstdio>
-
-/*
- * Face.cpp
- *
- *  Created on: 19 déc. 2014
- *      Author: Julien
- */
-using namespace std;
-
 #include "Face.h"
 #include <new>
 #include <GL/glut.h>
@@ -32,10 +23,10 @@ Face::Face(Point tbPoints[4], Couleur couleur){
 }
 Face::Face(Point p1, Point p2, Point p3, Point p4, Couleur couleur){
 	try{
-	_tbPoints[0] = p1;
-	_tbPoints[1] = p2;
-	_tbPoints[2] = p3;
-	_tbPoints[3] = p4;
+	_tbPoints.push_back(p1);
+	_tbPoints.push_back(p2);
+	_tbPoints.push_back(p3);
+	_tbPoints.push_back(p4);
 	_couleur = couleur;
 	}
 		catch (bad_alloc& ba)
@@ -50,9 +41,6 @@ Couleur Face::getCouleur() const {
 void Face::setCouleur(Couleur couleur) {
 	_couleur = couleur;
 }
-
-
-
 
 Point Face::getPoint(int i) {
 	return _tbPoints[i];
@@ -98,7 +86,7 @@ bool Face::estFaitDe(Point p){
 	return false;*/
 }
 
-Point* Face::getTbPoints() {
+vector<Point> Face::getTbPoints() {
 	return _tbPoints;
 }
 

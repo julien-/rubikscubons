@@ -8,15 +8,15 @@
 #ifndef FACE_H_
 #define FACE_H_
 
-
-
+using namespace std;
+#include <vector>
 #include <GL/gl.h>
 #include "Point.h"
 #include "Couleur.h"
 
 class Face {
 private:
-	Point _tbPoints[4];
+	vector<Point> _tbPoints;
 	Couleur _couleur;
 public:
 	Face();
@@ -29,7 +29,7 @@ public:
 
 	Couleur getCouleur() const;
 	void setCouleur(Couleur couleur);
-	Point* getTbPoints();
+	vector<Point> getTbPoints();
 	bool estFaitDe(Point p);
 	void afficher();
 

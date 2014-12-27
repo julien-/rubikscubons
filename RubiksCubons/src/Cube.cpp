@@ -20,8 +20,8 @@ Cube::~Cube() {
 	// TODO Auto-generated destructor stub
 }
 
-const Face* Cube::getTbFace() const {
-	return *_tbFace;
+const vector<Face*> Cube::getTbFace() const {
+	return _tbFace;
 }
 
 Face Cube::getFace(int i) {
@@ -88,28 +88,20 @@ Cube::Cube(float size, Point p0) {
 	//| /              | /
 	//|/               |/
 	//p3---------------p2
-	Point *p1 = new Point(p0.getX()+size, 	p0.getY(), 			p0.getZ());
-	Point *p2 = new Point(p1->getX(), 		p1->getY()-size, 	p0.getZ());
-	Point *p3 = new Point(p0.getX(), 		p2->getY(), 		p0.getZ());
-	Point *p4 = new Point(p0.getX(), 		p0.getY(), 			p0.getZ()+size);
-	Point *p5 = new Point(p1->getX(), 		p1->getY(), 		p4->getZ());
-	Point *p6 = new Point(p2->getX(), 		p2->getY(), 		p4->getZ());
-	Point *p7 = new Point(p3->getX(), 		p3->getY(), 		p4->getZ());
+	Point p1 = Point(p0.getX()+size, 	p0.getY(), 			p0.getZ());
+	Point p2 = Point(p1.getX(), 		p1.getY()-size, 	p0.getZ());
+	Point p3 = Point(p0.getX(), 		p2.getY(), 		p0.getZ());
+	Point p4 = Point(p0.getX(), 		p0.getY(), 			p0.getZ()+size);
+	Point p5 = Point(p1.getX(), 		p1.getY(), 		p4.getZ());
+	Point p6 = Point(p2.getX(), 		p2.getY(), 		p4.getZ());
+	Point p7 = Point(p3.getX(), 		p3.getY(), 		p4.getZ());
 
-	_tbFace[0] = new Face(p0, *p1, *p2, *p3, Couleur::rouge());	//devant nous
-	_tbFace[1] = new Face(p0, *p1, *p5, *p4, Couleur::vert());//haut
-	_tbFace[2] = new Face(*p1, *p5, *p6, *p2, Couleur::bleu());//droite
-	_tbFace[3] = new Face(*p2, *p6, *p7, *p3, Couleur::blanc());//bas
-	_tbFace[4] = new Face(*p3, p0, *p4, *p7, Couleur::jaune());//gauche
-	_tbFace[5] = new Face(*p4, *p5, *p6, *p7, Couleur::orange());//arriere
-
-	delete p1;
-	delete p2;
-	delete p3;
-	delete p4;
-	delete p5;
-	delete p6;
-	delete p7;
+	_tbFace.push_back(new Face(p0, p1, p2, p3, Couleur::rouge()));	//devant nous
+	_tbFace.push_back(new Face(p0, p1, p5, p4, Couleur::vert()));//haut
+	_tbFace.push_back(new Face(p1, p5, p6, p2, Couleur::bleu()));//droite
+	_tbFace.push_back(new Face(p2, p6, p7, p3, Couleur::blanc()));//bas
+	_tbFace.push_back(new Face(p3, p0, p4, p7, Couleur::jaune()));//gauche
+	_tbFace.push_back(new Face(p4, p5, p6, p7, Couleur::orange()));//arriere
 	}
 		catch (bad_alloc& ba)
 		{
