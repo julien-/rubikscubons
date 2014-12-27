@@ -17,6 +17,7 @@ using namespace std;
 
 RubikCube::RubikCube(int size) {
 	_size = size;
+	_centre = new Point(0.0, 0.0, 0.0);
 	//Creation des (size * size * size) cubes
 	//   p4---------------p5
 	//  /|               / |
@@ -64,4 +65,12 @@ RubikCube::~RubikCube() {
 void RubikCube::afficher() {
 	for (unsigned int i = 0; i < _tbCube.size(); ++i)
 		_tbCube[i]->afficher();
+}
+
+const Point* RubikCube::getCentre() const {
+	return _centre;
+}
+
+void RubikCube::setCentre(const Point* centre) {
+	*_centre = *centre;
 }

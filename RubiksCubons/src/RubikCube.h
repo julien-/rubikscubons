@@ -2,10 +2,12 @@
 #define RUBIKCUBE_H_
 
 #include "Cube.h"
+#include "Point.h"
 
 class RubikCube {
 private:
 	int _size;
+	Point *_centre;
 	//Tranche* _tbTranche[];//pointeur de tableaux de tranches (3  car x,y,z)
 	vector<Cube *>_tbCube;
 public:
@@ -14,6 +16,8 @@ public:
 	int getSize() const;
 	void setSize(int size);
 	void afficher();
+	const Point* getCentre() const;
+	void setCentre(const Point* centre);
 };
 
 #endif /* RUBIKCUBE_H_ */
