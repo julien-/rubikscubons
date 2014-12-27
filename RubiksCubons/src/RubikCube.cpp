@@ -45,12 +45,11 @@ RubikCube::RubikCube(int size) {
 		//_tbCube[1] =  new Cube(taille, Point(xdepart+taille+decalage, ydepart, zdepart),_tbCouleur[0],_tbCouleur[1],_tbCouleur[2],_tbCouleur[3],_tbCouleur[4],_tbCouleur[5]);
 
 		for (float x = xdepart; x < -xdepart; x+=taille+decalage) {
-			//for (float y = ydepart; y > -ydepart; y-=taille+decalage) {
-			//	for (float z = zdepart; z < -zdepart; z+=taille+decalage) {
-					//_tbCube[count] =  Cube(taille, Point(x, y, z),_tbCouleur[0],_tbCouleur[1],_tbCouleur[2],_tbCouleur[3],_tbCouleur[4],_tbCouleur[5]);
-			_tbCube.push_back(new Cube(taille, Point(x, ydepart, zdepart)));
-				//}
-			//}
+			for (float y = ydepart; y > -ydepart; y-=taille+decalage) {
+				for (float z = zdepart; z < -zdepart; z+=taille+decalage) {
+					_tbCube.push_back(new Cube(taille, Point(x, y, z)));
+				}
+			}
 		}
 
 
