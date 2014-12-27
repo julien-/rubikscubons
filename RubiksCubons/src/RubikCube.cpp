@@ -20,19 +20,9 @@ RubikCube::RubikCube() {
 
 }
 
-RubikCube::RubikCube(int size, Couleur c1, Couleur c2, Couleur c3, Couleur c4, Couleur c5, Couleur c6 ) {
+RubikCube::RubikCube(int size) {
 	try{
 	_size = size;
-
-	//Creation des 6 différentes couleurs
-	_tbCouleur[0] = c1;	//Couleur *rouge = new Couleur(1.0, 0.0, 0.0);
-	_tbCouleur[1] = c2; //Couleur *vert = new Couleur(0.0, 1.0, 0.0);
-	_tbCouleur[2] = c3; //Couleur *bleu = new Couleur(0.0, 0.0, 1.0);
-	_tbCouleur[3] = c4; //Couleur *jaune = new Couleur(1.0, 1.0, 0.0);
-	_tbCouleur[4] = c5; //Couleur *blanc = new Couleur(1.0, 1.0, 1.0);
-	_tbCouleur[5] = c6; //Couleur *orange = new Couleur(1.0, 0.5, 0.0);
-
-
 	//Creation des (size * size * size) cubes
 		//   p4---------------p5
 		//  /|               / |
@@ -59,7 +49,7 @@ RubikCube::RubikCube(int size, Couleur c1, Couleur c2, Couleur c3, Couleur c4, C
 			//for (float y = ydepart; y > -ydepart; y-=taille+decalage) {
 			//	for (float z = zdepart; z < -zdepart; z+=taille+decalage) {
 					//_tbCube[count] =  Cube(taille, Point(x, y, z),_tbCouleur[0],_tbCouleur[1],_tbCouleur[2],_tbCouleur[3],_tbCouleur[4],_tbCouleur[5]);
-			_tbCube[count] =  new Cube(taille, Point(x, ydepart, zdepart),_tbCouleur[0],_tbCouleur[1],_tbCouleur[2],_tbCouleur[3],_tbCouleur[4],_tbCouleur[5]);
+			_tbCube[count] =  new Cube(taille, Point(x, ydepart, zdepart));
 					count++;
 				//}
 			//}

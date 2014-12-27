@@ -9,14 +9,6 @@ using namespace std;
 #include "RubikCube.h"
 #include "Point.h"
 
-
-  //Creation des 6 différentes couleurs
-  Couleur *rouge = new Couleur(1.0, 0.0, 0.0);
-  Couleur *vert = new Couleur(0.0, 1.0, 0.0);
-  Couleur *bleu = new Couleur(0.0, 0.0, 1.0);
-  Couleur *jaune = new Couleur(1.0, 1.0, 0.0);
-  Couleur *blanc = new Couleur(1.0, 1.0, 1.0);
-  Couleur *orange = new Couleur(1.0, 0.5, 0.0);
 char presse;
 int anglex,angley,x,y,xold,yold;
 
@@ -49,19 +41,11 @@ void affichage()
 	   */
 	  glRotatef(-angley,1.0,0.0,0.0);
 	  glRotatef(-anglex,0.0,1.0,0.0);
-	  /* Dessin du cube */
-
-	  //Creation des 6 différentes couleurs
-	  Couleur *rouge = new Couleur(1.0, 0.0, 0.0);
-	  Couleur *vert = new Couleur(0.0, 1.0, 0.0);
-	  Couleur *bleu = new Couleur(0.0, 0.0, 1.0);
-	  Couleur *jaune = new Couleur(1.0, 1.0, 0.0);
-	  Couleur *blanc = new Couleur(1.0, 1.0, 1.0);
-	  Couleur *orange = new Couleur(1.0, 0.5, 0.0);
 
 	  //Creation de notre RubikCube
-	  RubikCube *rc = new RubikCube(3, *rouge, *vert, *bleu, *jaune, *blanc, *orange);
+	  RubikCube *rc = new RubikCube(3);
 	  rc->afficher();
+	  delete rc;
 
 	  /* On echange les buffers */
 		glutSwapBuffers();

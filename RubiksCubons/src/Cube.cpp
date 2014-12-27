@@ -75,7 +75,7 @@ Cube::Cube(GLfloat x, GLfloat y, GLfloat z){
 	Point(largCube + decalage, -largCube + decalage, -largCube + decalage),	//bas gauche
 	tbCouleur[0], tbCouleur[1], tbCouleur[2], tbCouleur[3], tbCouleur[4], tbCouleur[5]);
 }*/
-Cube::Cube(float size, Point p0, Couleur c0, Couleur c1, Couleur c2, Couleur c3, Couleur c4, Couleur c5) {
+Cube::Cube(float size, Point p0) {
 	try{
 	//   p4---------------p5
     //  /|               / |
@@ -96,12 +96,20 @@ Cube::Cube(float size, Point p0, Couleur c0, Couleur c1, Couleur c2, Couleur c3,
 	Point *p6 = new Point(p2->getX(), 		p2->getY(), 		p4->getZ());
 	Point *p7 = new Point(p3->getX(), 		p3->getY(), 		p4->getZ());
 
-	_tbFace[0] = new Face(p0, *p1, *p2, *p3, c0);	//devant nous
-	_tbFace[1] = new Face(p0, *p1, *p5, *p4, c1);//haut
-	_tbFace[2] = new Face(*p1, *p5, *p6, *p2, c2);//droite
-	_tbFace[3] = new Face(*p2, *p6, *p7, *p3, c3);//bas
-	_tbFace[4] = new Face(*p3, p0, *p4, *p7, c4);//gauche
-	_tbFace[5] = new Face(*p4, *p5, *p6, *p7, c5);//arriere
+	_tbFace[0] = new Face(p0, *p1, *p2, *p3, Couleur::rouge());	//devant nous
+	_tbFace[1] = new Face(p0, *p1, *p5, *p4, Couleur::vert());//haut
+	_tbFace[2] = new Face(*p1, *p5, *p6, *p2, Couleur::bleu());//droite
+	_tbFace[3] = new Face(*p2, *p6, *p7, *p3, Couleur::blanc());//bas
+	_tbFace[4] = new Face(*p3, p0, *p4, *p7, Couleur::jaune());//gauche
+	_tbFace[5] = new Face(*p4, *p5, *p6, *p7, Couleur::orange());//arriere
+
+	delete p1;
+	delete p2;
+	delete p3;
+	delete p4;
+	delete p5;
+	delete p6;
+	delete p7;
 	}
 		catch (bad_alloc& ba)
 		{

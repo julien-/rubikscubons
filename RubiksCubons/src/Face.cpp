@@ -111,6 +111,8 @@ void Face::afficher(){
 			glVertex3f(_tbPoints[i].getX(),_tbPoints[i].getY(), _tbPoints[i].getZ());
 		}
 	glEnd();
+
+
 	}
 		catch (bad_alloc& ba)
 		{
