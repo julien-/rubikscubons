@@ -5,6 +5,11 @@
  *      Author: Julien
  */
 
+#include <cstdio>
+#include <new>
+
+using namespace std;
+
 #include "Cube.h"
 
 Cube::Cube() {
@@ -16,11 +21,11 @@ Cube::~Cube() {
 }
 
 const Face* Cube::getTbFace() const {
-	return _tbFace;
+	return *_tbFace;
 }
 
 Face Cube::getFace(int i) {
-	return _tbFace[i];
+	return *_tbFace[i];
 }
 
 Face Cube::getFace(Point p1, Point p2, Point p3, Point p4) {
@@ -71,6 +76,7 @@ Cube::Cube(GLfloat x, GLfloat y, GLfloat z){
 	tbCouleur[0], tbCouleur[1], tbCouleur[2], tbCouleur[3], tbCouleur[4], tbCouleur[5]);
 }*/
 Cube::Cube(float size, Point p0, Couleur c0, Couleur c1, Couleur c2, Couleur c3, Couleur c4, Couleur c5) {
+	try{
 	//   p4---------------p5
     //  /|               / |
 	// / |              /  |
@@ -90,19 +96,29 @@ Cube::Cube(float size, Point p0, Couleur c0, Couleur c1, Couleur c2, Couleur c3,
 	Point *p6 = new Point(p2->getX(), 		p2->getY(), 		p4->getZ());
 	Point *p7 = new Point(p3->getX(), 		p3->getY(), 		p4->getZ());
 
-	_tbFace[0] = Face(p0, *p1, *p2, *p3, c0);	//devant nous
-	_tbFace[1] = Face(p0, *p1, *p5, *p4, c1);//haut
-	_tbFace[2] = Face(*p1, *p5, *p6, *p2, c2);//droite
-	_tbFace[3] = Face(*p2, *p6, *p7, *p3, c3);//bas
-	_tbFace[4] = Face(*p3, p0, *p4, *p7, c4);//gauche
-	_tbFace[5] = Face(*p4, *p5, *p6, *p7, c5);//arriere
+	_tbFace[0] = new Face(p0, *p1, *p2, *p3, c0);	//devant nous
+	_tbFace[1] = new Face(p0, *p1, *p5, *p4, c1);//haut
+	_tbFace[2] = new Face(*p1, *p5, *p6, *p2, c2);//droite
+	_tbFace[3] = new Face(*p2, *p6, *p7, *p3, c3);//bas
+	_tbFace[4] = new Face(*p3, p0, *p4, *p7, c4);//gauche
+	_tbFace[5] = new Face(*p4, *p5, *p6, *p7, c5);//arriere
+	}
+		catch (bad_alloc& ba)
+		{
+			printf("###########################BAD ALLOC #######################################\n");
+		}
 }
 
 void Cube::afficher() {
+	try{
 	//Chaque face du cube se dessine
 	for (int i=0;i<6;i++)
 	{
-		_tbFace[i].afficher();
+		_tbFace[i]->afficher();
 	}
-
+	}
+		catch (bad_alloc& ba)
+		{
+			printf("###########################BAD ALLOC #######################################\n");
+		}
 }

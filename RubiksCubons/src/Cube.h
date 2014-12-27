@@ -15,7 +15,7 @@ using namespace std;
 
 class Cube {
 private:
-	Face _tbFace[6];
+	Face *_tbFace[6];
 public:
 	Cube();
 	Cube(GLfloat x, GLfloat y, GLfloat z);

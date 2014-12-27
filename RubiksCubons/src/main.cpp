@@ -1,7 +1,10 @@
 #include <GL/freeglut_std.h>
 #include <GL/gl.h>
+#include <cstdio>
 #include <cstdlib>
+#include <new>
 
+using namespace std;
 #include "Couleur.h"
 #include "RubikCube.h"
 #include "Point.h"
@@ -30,40 +33,43 @@ void mousemotion(int x,int y);
 
 void affichage()
 {
-  int i,j;
-  /* effacement de l'image avec la couleur de fond */
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-  glLoadIdentity();
-  glRotatef(-angley,1.0,0.0,0.0);
-  glRotatef(-anglex,0.0,1.0,0.0);
-  /* Dessin du cube */
-
-  //Creation des 6 différentes couleurs
-  Couleur *rouge = new Couleur(1.0, 0.0, 0.0);
-  Couleur *vert = new Couleur(0.0, 1.0, 0.0);
-  Couleur *bleu = new Couleur(0.0, 0.0, 1.0);
-  Couleur *jaune = new Couleur(1.0, 1.0, 0.0);
-  Couleur *blanc = new Couleur(1.0, 1.0, 1.0);
-  Couleur *orange = new Couleur(1.0, 0.5, 0.0);
-
-  //Creation de notre RubikCube
-  RubikCube *rc = new RubikCube(3, *rouge, *vert, *bleu, *jaune, *blanc, *orange);
-  rc->afficher();
-  /*for (i=0;i<6;i++)
-    {
-      glBegin(GL_POLYGON);
-      for (j=0;j<4;j++)
+	try
 	{
-	  glColor3f(p[f[i][j]].r,p[f[i][j]].g,p[f[i][j]].b);
-	  glVertex3f(p[f[i][j]].x,p[f[i][j]].y,p[f[i][j]].z);
+	  /* effacement de l'image avec la couleur de fond */
+	  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	  glLoadIdentity();
+	  /*
+	  float camera[] = {0.0, 1.0, 1.0};
+	  float target[] = {0.0, 0.0, 0.0};
+	  float tete[] = {0.0, 1.0, 0.0};
+
+	  gluLookAt(camera[0], camera[1], camera[2],
+	                 target[0], target[1], target[2],
+	                 tete[0], tete[1], tete[2]);
+	   */
+	  glRotatef(-angley,1.0,0.0,0.0);
+	  glRotatef(-anglex,0.0,1.0,0.0);
+	  /* Dessin du cube */
+
+	  //Creation des 6 différentes couleurs
+	  Couleur *rouge = new Couleur(1.0, 0.0, 0.0);
+	  Couleur *vert = new Couleur(0.0, 1.0, 0.0);
+	  Couleur *bleu = new Couleur(0.0, 0.0, 1.0);
+	  Couleur *jaune = new Couleur(1.0, 1.0, 0.0);
+	  Couleur *blanc = new Couleur(1.0, 1.0, 1.0);
+	  Couleur *orange = new Couleur(1.0, 0.5, 0.0);
+
+	  //Creation de notre RubikCube
+	  RubikCube *rc = new RubikCube(2, *rouge, *vert, *bleu, *jaune, *blanc, *orange);
+	  rc->afficher();
+
+	  /* On echange les buffers */
+		glutSwapBuffers();
 	}
-      glEnd();
-    }
-  glFlush();
-*/
-  /* On echange les buffers */
-  glutSwapBuffers();
+	catch (bad_alloc& ba)
+	{
+		printf("###########################BAD ALLOC #######################################\n");
+	}
 }
 
 void clavier(unsigned char touche,int x,int y)
@@ -136,9 +142,9 @@ int main(int argc,char **argv)
 {
   /* initialisation de glut et creation de la fenetre */
   glutInit(&argc,argv);
-  glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+  glutInitDisplayMode(GLUT_RGB|GLUT_DEPTH|GLUT_DOUBLE);
   glutInitWindowPosition(200,200);
-  glutInitWindowSize(500,500);
+  glutInitWindowSize(800,800);
   glutCreateWindow("RubiksCubons");
 
   /* Initialisation d'OpenGL */

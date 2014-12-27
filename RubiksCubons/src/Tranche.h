@@ -6,7 +6,7 @@
 
 class Tranche {
 private:
-	Cube *_tbCube[];
+	Cube _tbCube[];
 public:
 	Tranche();
 	Tranche(int axe, int size, Couleur tbCouleur[]);//axe =   0:x  1:y   2:z

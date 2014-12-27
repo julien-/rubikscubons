@@ -1,12 +1,15 @@
+#include <cstdio>
+
 /*
  * Face.cpp
  *
  *  Created on: 19 déc. 2014
  *      Author: Julien
  */
+using namespace std;
 
 #include "Face.h"
-
+#include <new>
 #include <GL/glut.h>
 
 Face::Face() {
@@ -16,17 +19,29 @@ Face::~Face() {
 	// TODO Auto-generated destructor stub
 }
 Face::Face(Point tbPoints[4], Couleur couleur){
+	try{
 	for (unsigned int i = 0; i < sizeof(tbPoints); ++i) {
 		_tbPoints[i] = tbPoints[i];
 	}
 	_couleur = couleur;
+	}
+		catch (bad_alloc& ba)
+		{
+			printf("###########################BAD ALLOC #######################################\n");
+		}
 }
 Face::Face(Point p1, Point p2, Point p3, Point p4, Couleur couleur){
+	try{
 	_tbPoints[0] = p1;
 	_tbPoints[1] = p2;
 	_tbPoints[2] = p3;
 	_tbPoints[3] = p4;
 	_couleur = couleur;
+	}
+		catch (bad_alloc& ba)
+		{
+			printf("###########################BAD ALLOC #######################################\n");
+		}
 }
 Couleur Face::getCouleur() const {
 	return _couleur;
@@ -88,6 +103,7 @@ Point* Face::getTbPoints() {
 }
 
 void Face::afficher(){
+	try{
 	glColor3f(_couleur.getR(), _couleur.getV(), _couleur.getB());
 	glBegin(GL_POLYGON);
 		for (int i=0;i<4;i++)
@@ -95,6 +111,11 @@ void Face::afficher(){
 			glVertex3f(_tbPoints[i].getX(),_tbPoints[i].getY(), _tbPoints[i].getZ());
 		}
 	glEnd();
+	}
+		catch (bad_alloc& ba)
+		{
+			printf("###########################BAD ALLOC #######################################\n");
+		}
 }
 
 bool operator==(Face const& f1, Face const& f2){
