@@ -9,7 +9,6 @@ private:
 	//Tranche* _tbTranche[];//pointeur de tableaux de tranches (3  car x,y,z)
 	vector<Cube *>_tbCube;
 public:
-	RubikCube();
 	RubikCube(int size);
 	virtual ~RubikCube();
 	int getSize() const;

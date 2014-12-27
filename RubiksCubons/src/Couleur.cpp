@@ -74,3 +74,7 @@ Couleur Couleur::jaune(){
 Couleur Couleur::orange(){
 	return Couleur(1.0, 0.5, 0.0);
 }
+
+Couleur Couleur::noir(){
+	return Couleur(0.0, 0.0, 0.0);
+}

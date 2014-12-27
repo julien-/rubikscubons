@@ -6,10 +6,6 @@
  */
 
 #include "Point.h"
-Point::Point() {
-	// TODO Auto-generated constructor stub
-}
-
 Point::Point(const Point &p) {
 	_x = p._x;
 	_y = p._y;

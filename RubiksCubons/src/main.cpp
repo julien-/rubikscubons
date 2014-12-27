@@ -25,8 +25,6 @@ void mousemotion(int x,int y);
 
 void affichage()
 {
-	try
-	{
 	  /* effacement de l'image avec la couleur de fond */
 	  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	  glLoadIdentity();
@@ -42,18 +40,19 @@ void affichage()
 	  glRotatef(-angley,1.0,0.0,0.0);
 	  glRotatef(-anglex,0.0,1.0,0.0);
 
+	  //Active l'antialiasing sur les lignes
+	  glEnable(GL_LINE_SMOOTH);
 	  //Creation de notre RubikCube
 	  RubikCube *rc = new RubikCube(3);
+	  //Affichage
 	  rc->afficher();
-	  delete rc;
+	  //Destruction
+	  //delete rc;
+	  rc->~RubikCube();
+
 
 	  /* On echange les buffers */
 		glutSwapBuffers();
-	}
-	catch (bad_alloc& ba)
-	{
-		printf("###########################BAD ALLOC #######################################\n");
-	}
 }
 
 void clavier(unsigned char touche,int x,int y)

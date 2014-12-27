@@ -19,9 +19,8 @@ private:
 	vector<Point> _tbPoints;
 	Couleur _couleur;
 public:
-	Face();
 	virtual ~Face();
-	Face(Point tbPoints[], Couleur couleur);
+	Face(vector<Point> tbPoints, Couleur couleur);
 	Face(Point p1, Point p2, Point p3, Point p4, Couleur couleur);
 	Point getPoint(int i);
 	Point getPoint(Point p);
@@ -32,6 +31,7 @@ public:
 	vector<Point> getTbPoints();
 	bool estFaitDe(Point p);
 	void afficher();
+	void afficherContour(Couleur c);
 
 };
 

@@ -21,6 +21,7 @@ public:
 	static Couleur bleu();
 	static Couleur jaune();
 	static Couleur orange();
+	static Couleur noir();
 
 };
 

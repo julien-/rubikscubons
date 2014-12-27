@@ -14,7 +14,6 @@ class Point {
 private:
 	GLfloat _x, _y, _z;
 public:
-	Point();
 	Point(const Point& p);
 	Point(GLfloat x, GLfloat y, GLfloat z);
 	virtual ~Point();
