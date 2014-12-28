@@ -18,6 +18,8 @@ public:
 	void afficher();
 	const Point* getCentre() const;
 	void setCentre(const Point* centre);
+	void Rotation(char XYZ, int angle);
+	void Deplacement(GLfloat x, GLfloat y, GLfloat z);
 };
 
 #endif /* RUBIKCUBE_H_ */

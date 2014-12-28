@@ -74,3 +74,28 @@ const Point* RubikCube::getCentre() const {
 void RubikCube::setCentre(const Point* centre) {
 	*_centre = *centre;
 }
+
+void RubikCube::Rotation(char XYZ, int angle){
+	switch (XYZ) {
+	    case 'x' :
+	    	glRotatef(angle,1.0,0.0,0.0);
+			break ;
+	    case 'y' :
+	    	glRotatef(angle,0.0,1.0,0.0);
+			break ;
+	    case 'z' :
+	    	glRotatef(angle,0.0,0.0,1.0);
+	    	break;
+	}
+}
+
+
+void RubikCube::Deplacement(GLfloat x, GLfloat y, GLfloat z){
+	GLfloat Xcentre = _centre->getX() + x;
+	GLfloat Ycentre = _centre->getY() - y;
+	GLfloat Zcentre = _centre->getZ() + z;
+	_centre->setX(Xcentre);
+	_centre->setY(Ycentre);
+	_centre->setZ(Zcentre);
+	glTranslatef(x,-y,z);
+}
