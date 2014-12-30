@@ -143,12 +143,22 @@ void clavier(unsigned char touche,int x,int y)
     }
 }
 
-void reshape(int x,int y)
+void reshape(int w, int l) // Reshape function
 {
-  if (x<y)
-    glViewport(0,(y-x)/2,x,x);
-  else
-    glViewport((x-y)/2,0,y,y);
+	glViewport(0, 0, w, l);
+	/* On veut changer la matrice de projection */
+	glMatrixMode(GL_PROJECTION);
+	/* chargement de la matrice identité */
+	glLoadIdentity();
+	/* On modifie les valeurs de projection */
+	if (w > l)
+		glOrtho((float)-w / l, (float)w / l, -1.0, 1.0, -1.0, 1.0);
+	else
+		glOrtho(-1.0, 1.0, (float)-l / w, (float)l / w, -1.0, 1.0);
+	/* On applique la modification de matrice */
+	glMatrixMode(GL_MODELVIEW);
+	/*On revient sur la matrice initiale */
+	glLoadIdentity();
 }
 
 void mouse(int button, int state,int x,int y)
