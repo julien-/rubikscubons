@@ -63,6 +63,7 @@ RubikCube::~RubikCube() {
 }
 
 void RubikCube::afficher() {
+	glEnable(GL_LINE_SMOOTH);//Active l'antialiasing pour les lignes
 	for (unsigned int i = 0; i < _tbCube.size(); ++i)
 		_tbCube[i]->afficher();
 }
@@ -97,5 +98,5 @@ void RubikCube::Deplacement(GLfloat x, GLfloat y, GLfloat z){
 	_centre->setX(Xcentre);
 	_centre->setY(Ycentre);
 	_centre->setZ(Zcentre);
-	glTranslatef(x,-y,z);
+	glTranslatef(-x,-y,z);
 }

@@ -14,7 +14,7 @@ int Win_width = 800;
 int Win_height = 800;
 /*GESTION DE LA SOURIS*/
 char ClicGauchePresse;//Gestion des clics de la souris
-
+/*RUBIK CUBE*/
 //rotation
 int Mouse_x,Mouse_y;//NEW : Position actuelle de la souris
 int Oldmouse_x,Oldmouse_y;//OLD: Gestion des clics de la souris
@@ -23,14 +23,27 @@ int Angle_x,Angle_y;//ACTION:Gestion de l'angle de vue (pour faire tourner l'obj
 GLfloat Mouse_plan_x, Mouse_plan_y;//NEW: Nouvelles coordonnées de la souris dans le plan
 GLfloat Oldmouse_plan_x, Oldmouse_plan_y;//OLD: Anciennes coordonnées de la souris dans le plan
 GLfloat Deplac_x, Deplac_y, Deplac_z;//ACTION:Position actuelle du centre de l'objet dans l'espace plan
+/*CAMERA*/
+GLfloat camera_posx = 1.0;
+GLfloat camera_posy = 1.0;
+GLfloat camera_posz = 4.0;
+GLfloat camera_directionx = 0.0;
+GLfloat camera_directiony = 0.0;
+GLfloat camera_directionz = 0.0;
+GLfloat camera_sensx = 0.0;
+GLfloat camera_sensy = 1.0;
+GLfloat camera_sensz = 0.0;
+
+
 /*GESTION DES MENUS*/
 int Dimension = 3;//taille du cube (3 par defaut)
-char *Mode = "deplacement";//actions du clic gauches (0=mode ROTATION; 1=mode DEPLACEMENT)
+char *ModeCube = "deplacement";//actions du clic gauches (0=mode ROTATION; 1=mode DEPLACEMENT)
+
 
 /* Prototype des fonctions */
 void affichage();
 void clavier(unsigned char touche,int x,int y);
-void reshape(int x,int y);
+void reshape(int width,int height);
 void mouse(int bouton,int etat,int x,int y);
 void mousemotion(int x,int y);
 //Creation de notre RubikCube 3x3 (par default)
@@ -51,21 +64,51 @@ void selectDimension(int selection) {//selection de la taille du cube
     	//rc->~RubikCube();
     	delete rc;
 		rc = new RubikCube(Dimension);
-              break ; }
+              break ;
+  }
   glutPostRedisplay();
 }
 
 /*  selection pour l'objet */
-void selectMode(int selection) {//selection du mode ROTATION/DEPLACEMENT
+void selectModeCube(int selection) {//selection du mode ROTATION/DEPLACEMENT
   switch (selection) {
     case 21  :
-    	Mode = "rotation";
+    	ModeCube = "rotation";
     	break;
     case 22  :
-    	Mode = "deplacement";
+    	ModeCube = "deplacement";
     	break;
-  glutPostRedisplay();
   }
+  glutPostRedisplay();
+}
+
+void selectModeCamera(int selection){//selection de la vue de la CAMERA
+	switch (selection) {
+		case 31  ://centre
+			camera_posx = 0.0;
+			camera_posy = 0.0;
+			camera_posz = 4.0;
+			camera_directionx = 0.0;
+			camera_directiony = 0.0;
+			camera_directionz = 0.0;
+			camera_sensx = 0.0;
+			camera_sensy = 1.0;
+			camera_sensz = 0.0;
+			break;
+		case 32  ://vue de l'espace haut gauche
+			camera_posx = 0.0;
+			camera_posy = 2.0;
+			camera_posz = 2.0;
+			camera_directionx = 0.0;
+			camera_directiony = 0.0;
+			camera_directionz = 0.0;
+			camera_sensx = 0.0;
+			camera_sensy = 1.0;
+			camera_sensz = 0.0;
+			break;
+
+	}
+	glutPostRedisplay();
 }
 
 void select(int selection) {
@@ -78,18 +121,27 @@ void select(int selection) {
 
 void affichage()
 {
-	  /* effacement de l'image avec la couleur de fond */
-	  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	  glLoadIdentity();
-	  //if(Mode=="rotation"){
-		  rc->Rotation('Mouse_x', -Angle_y);
-		  rc->Rotation('y', -Angle_x);
-	  //}
-	  //if(Mode=="deplacement"){
-		  rc->Deplacement(Deplac_x, Deplac_y, Deplac_z);
-	  //}
-	  //glRotatef(-angley,1.0,0.0,0.0);
-	  //glRotatef(-anglex,0.0,1.0,0.0);
+	/* effacement de l'image avec la couleur de fond */
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glLoadIdentity();
+	glPushMatrix();//Scene
+		//glTranslatef(rc->getCentre()->getX(),rc->getCentre()->getY(),rc->getCentre()->getZ());
+			glPushMatrix();//Observateur
+				gluLookAt(	camera_directionx,camera_directiony,camera_directionz,//où je regarde
+							camera_posx, camera_posy, camera_posz,//où je suis
+							camera_sensx, camera_sensy, camera_sensz//sens de ma tete(x,y,z)
+							);
+				glPushMatrix();//RubikCube
+					rc->Deplacement(Deplac_x, Deplac_y, Deplac_z);
+					rc->Rotation('x', -Angle_y);
+					rc->Rotation('y', -Angle_x);
+					rc->afficher();//Affichage
+				glPopMatrix();//RubikCube
+				glMatrixMode(GL_MODELVIEW);
+			glPopMatrix();//Observateur
+		glPopMatrix();//Scene
+
+
 	  /*
 	  float camera[] = {0.0, 1.0, 1.0};
 	  float target[] = {0.0, 0.0, 0.0};
@@ -100,11 +152,7 @@ void affichage()
 	                 tete[0], tete[1], tete[2]);
 	   */
 
-	  //Active l'antialiasing pour les lignes
-	  glEnable(GL_LINE_SMOOTH);
 
-	  //Affichage
-	  rc->afficher();
 	  //récupère la valeur du centre de l'objet, pour pouvoir le déplacer dans l'espace plan
 	  /*posx = rc->getCentre()->getX();
 	  posy = rc->getCentre()->getY();
@@ -143,12 +191,14 @@ void clavier(unsigned char touche,int x,int y)
     }
 }
 
-void reshape(int x,int y)
+void reshape(int width,int height)
 {
-  if (x<y)
-    glViewport(0,(y-x)/2,x,x);
-  else
-    glViewport((x-y)/2,0,y,y);
+	glViewport(0, 0, width, height);
+	//changement de viewport
+//	if (x<y)			//x, 		y			width	height
+		//glViewport(		0,			(y-x)/2,	x,		x);
+	//else
+		//glViewport(		(x-y)/2,	0,			y,		y);
 }
 
 void mouse(int button, int state,int x,int y)
@@ -173,7 +223,7 @@ void mousemotion(int x,int y)
   {
     if (ClicGauchePresse)
     {
-    	if(Mode == "rotation"){
+    	if(ModeCube == "rotation"){
 			/* on modifie les angles de rotation de l'objet
 			en fonction de la position actuelle de la souris et de la derniere
 			position sauvegardee */
@@ -182,7 +232,7 @@ void mousemotion(int x,int y)
 			glutPostRedisplay(); /* on demande un rafraichissement de l'affichage */
     	}
 
-    	if(Mode == "deplacement"){
+    	if(ModeCube == "deplacement"){
 			/* on modifie les point du centre de l'objet
 			en fonction de la position actuelle de la souris et de la derniere
 			position sauvegardee */
@@ -227,13 +277,18 @@ int main(int argc,char **argv)
        glutAddMenuEntry("3x3",11);
        glutAddMenuEntry("5x5",12);
 
-   int menuMode = glutCreateMenu(selectMode);
+   int menuCube = glutCreateMenu(selectModeCube);
            glutAddMenuEntry("Rotation",21);
            glutAddMenuEntry("Déplacement",22);
+
+   int menuCamera = glutCreateMenu(selectModeCamera);
+			  glutAddMenuEntry("Centrée sur la face active",31);
+			  glutAddMenuEntry("Haut gauche",32);
  /* on crée ensuite le menu superieur et on lie les sous-menus  */
    glutCreateMenu(select);
         glutAddSubMenu("Dimension",menuDimension);
-        glutAddSubMenu("Mode",menuMode);
+        glutAddSubMenu("Cube",menuCube);
+        glutAddSubMenu("Camera",menuCamera);
         glutAddMenuEntry("Quitter",0);
 
    /* On associe le choix du bouton gauche de la souris */
