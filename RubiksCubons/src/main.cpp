@@ -16,12 +16,13 @@ int Win_height = 800;
 char ClicGauchePresse;//Gestion des clics de la souris
 
 //rotation
+int RotationAngleOfTranche = 0; //l'angle de rotation d'une tranche
 int Mouse_x,Mouse_y;//NEW : Position actuelle de la souris
 int Oldmouse_x,Oldmouse_y;//OLD: Gestion des clics de la souris
 int Angle_x,Angle_y;//ACTION:Gestion de l'angle de vue (pour faire tourner l'objet)
 //deplacement
-GLfloat Mouse_plan_x, Mouse_plan_y;//NEW: Nouvelles coordonnées de la souris dans le plan
-GLfloat Oldmouse_plan_x, Oldmouse_plan_y;//OLD: Anciennes coordonnées de la souris dans le plan
+GLfloat Mouse_plan_x, Mouse_plan_y;//NEW: Nouvelles coordonnÐ¹es de la souris dans le plan
+GLfloat Oldmouse_plan_x, Oldmouse_plan_y;//OLD: Anciennes coordonnÐ¹es de la souris dans le plan
 GLfloat Deplac_x, Deplac_y, Deplac_z;//ACTION:Position actuelle du centre de l'objet dans l'espace plan
 /*GESTION DES MENUS*/
 int Dimension = 3;//taille du cube (3 par defaut)
@@ -33,6 +34,7 @@ void clavier(unsigned char touche,int x,int y);
 void reshape(int x,int y);
 void mouse(int bouton,int etat,int x,int y);
 void mousemotion(int x,int y);
+void trancheRotation(int );
 //Creation de notre RubikCube 3x3 (par default)
 RubikCube *rc = new RubikCube(Dimension);
 
@@ -64,6 +66,7 @@ void selectMode(int selection) {//selection du mode ROTATION/DEPLACEMENT
     case 22  :
     	Mode = "deplacement";
     	break;
+
   glutPostRedisplay();
   }
 }
@@ -105,7 +108,7 @@ void affichage()
 
 	  //Affichage
 	  rc->afficher();
-	  //récupère la valeur du centre de l'objet, pour pouvoir le déplacer dans l'espace plan
+	  //rÐ¹cupÐ¸re la valeur du centre de l'objet, pour pouvoir le dÐ¹placer dans l'espace plan
 	  /*posx = rc->getCentre()->getX();
 	  posy = rc->getCentre()->getY();
 	  posz = rc->getCentre()->getZ();
@@ -148,7 +151,7 @@ void reshape(int w, int l) // Reshape function
 	glViewport(0, 0, w, l);
 	/* On veut changer la matrice de projection */
 	glMatrixMode(GL_PROJECTION);
-	/* chargement de la matrice identité */
+	/* chargement de la matrice identitÃ© */
 	glLoadIdentity();
 	/* On modifie les valeurs de projection */
 	if (w > l)
@@ -199,7 +202,7 @@ void mousemotion(int x,int y)
     		//position actuelle de la souris dans le plan[-1;1]
     		Mouse_plan_x = (2.0 * x) / Win_width - 1.0;//(theGlutMouseXCoordinate / theGlutWindowWidth) - 1.0
 			Mouse_plan_y = (2.0 * y) / Win_height - 1.0;
-			//calcul du déplacement par rapport à l'ancienne position
+			//calcul du dÐ¹placement par rapport Ð° l'ancienne position
 			Deplac_x += Mouse_plan_x - Oldmouse_plan_x;
 			Deplac_y += Mouse_plan_y - Oldmouse_plan_y;
 			Deplac_z = 0;
@@ -214,12 +217,53 @@ void mousemotion(int x,int y)
     Oldmouse_plan_x = Mouse_plan_x;
     Oldmouse_plan_y = Mouse_plan_y;
   }
+
+void trancheRotation(int tranche){
+
+
+	RotationAngleOfTranche = rc->getAngle(tranche);
+	RotationAngleOfTranche++;
+
+	if (RotationAngleOfTranche % 90 != 0 ||  RotationAngleOfTranche == 0) {
+
+		rc->RotateTranche(RotationAngleOfTranche,tranche);
+		glutTimerFunc(50, trancheRotation, tranche);
+		glutPostRedisplay();
+
+	} else {
+		if (RotationAngleOfTranche == 360) {
+			RotationAngleOfTranche = 0;
+		}
+		rc->RotateTranche(RotationAngleOfTranche, tranche);
+		glutPostRedisplay();
+
+	}
+	printf("RotationAngleOfTranche: %d \n", RotationAngleOfTranche);
+
+}
+void rotateSelection(int arg){
+
+	switch (arg) {
+		case 1:
+			  glutTimerFunc(100,trancheRotation,0);
+			break;
+		case 2:
+			 glutTimerFunc(100,trancheRotation,1);
+			break;
+		case 3:
+			 glutTimerFunc(100,trancheRotation,2);
+			break;
+		default:
+			break;
+	}
+
+}
 int main(int argc,char **argv)
 {
   /* initialisation de glut et creation de la fenetre */
   glutInit(&argc,argv);
   glutInitDisplayMode(GLUT_RGB|GLUT_DEPTH|GLUT_DOUBLE);//Active le double buffering
-  glutInitWindowPosition(200,200);	//Poisitionne la fenetre
+  glutInitWindowPosition(50,50);	//Poisitionne la fenetre
   glutInitWindowSize(Win_width,Win_height);	//Taille de la fenetre
   glutCreateWindow("RubiksCubons");	//Nomme la fenetre
 
@@ -232,19 +276,36 @@ int main(int argc,char **argv)
 
   /*creation du menu */
 
-  //on commence par créer les sous-menus
+  //on commence par creer les sous-menus
   int menuDimension = glutCreateMenu(selectDimension);
        glutAddMenuEntry("3x3",11);
        glutAddMenuEntry("5x5",12);
 
    int menuMode = glutCreateMenu(selectMode);
            glutAddMenuEntry("Rotation",21);
-           glutAddMenuEntry("Déplacement",22);
- /* on crée ensuite le menu superieur et on lie les sous-menus  */
-   glutCreateMenu(select);
+           glutAddMenuEntry("Deplacement",22);
+
+          int menuRotate   = glutCreateMenu(rotateSelection);
+          glutAddMenuEntry("Tranche 1",1);
+          glutAddMenuEntry("Tranche 2",2);
+          glutAddMenuEntry("Tranche 3",3);
+
+   int Menuanimation = glutCreateMenu(selectMode);
+                   glutAddSubMenu("Rotate",menuRotate);
+
+ /* on cree ensuite le menu superieur et on lie les sous-menus  */
+    glutCreateMenu(select);
+
         glutAddSubMenu("Dimension",menuDimension);
+
         glutAddSubMenu("Mode",menuMode);
+        glutAddSubMenu("Animation",Menuanimation);
+
         glutAddMenuEntry("Quitter",0);
+
+
+
+
 
    /* On associe le choix du bouton gauche de la souris */
 

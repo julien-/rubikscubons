@@ -10,6 +10,9 @@ private:
 	Point *_centre;
 	//Tranche* _tbTranche[];//pointeur de tableaux de tranches (3  car x,y,z)
 	vector<Cube *>_tbCube;
+	int rotationAngles[3];
+	int NTranches = 3;
+	int Tranches[3][9];
 public:
 	RubikCube(int size);
 	virtual ~RubikCube();
@@ -20,6 +23,9 @@ public:
 	void setCentre(const Point* centre);
 	void Rotation(char XYZ, int angle);
 	void Deplacement(GLfloat x, GLfloat y, GLfloat z);
+	void RotateTranche( int angle, int tranche);
+	int getAngle(int tranche);
+
 };
 
 #endif /* RUBIKCUBE_H_ */

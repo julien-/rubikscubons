@@ -16,6 +16,7 @@ using namespace std;
 class Cube {
 private:
 	vector<Face*> _tbFace;
+
 public:
 	Cube(GLfloat x, GLfloat y, GLfloat z);
 	Cube(float size, Point p0);
