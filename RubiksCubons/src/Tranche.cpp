@@ -36,12 +36,12 @@ Tranche::~Tranche() {
 	// TODO Auto-generated destructor stub
 	delete [] cubes;
 }
-
+/*
 void Tranche::afficher() {
 	for (unsigned int i = 0; i < sizeof(_tbCube); ++i) {
 		_tbCube[i].afficher();
 	}
-}
+}*/
 
 void Tranche::setAngle(int rotationAngle) {
 	this->rotationAngle = rotationAngle;

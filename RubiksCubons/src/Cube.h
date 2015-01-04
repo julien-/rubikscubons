@@ -26,7 +26,7 @@ public:
 	Face getFace(Point p1, Point p2, Point p3, Point p4);
 	Face getFace(Face f);
 
-	void afficher();
+	void afficher(bool textureMode);
 };
 
 #endif /* CUBE_H_ */

@@ -3,6 +3,7 @@
 
 #include "Couleur.h"
 #include "Point.h"
+#include "helpers/lodepng.h"
 
 /*
  * RubikCube.cpp
@@ -30,18 +31,11 @@ RubikCube::RubikCube(int size) {
 	//| /              | /
 	//|/               |/
 	//p3---------------p2
-	float decalage = 0.01;
-	float xdepart = -0.5;
+	float decalage = 0.01;//decalage >=0 modifie le centre de rotation du cube
+	float xdepart = -0.5 ;
 	float ydepart = 0.5;
-	float zdepart = -0.5;
+	float zdepart = -0.5 ;
 	float taille = 1.0 / size;//largeur d'un cube(size est le nombre de cube de large)
-
-
-	/*
-	this->rotationAngles[0] = 0;
-	this->rotationAngles[1] = 0;
-	this->rotationAngles[2] = 0;
-	*/
 
 	for (float x = xdepart; x < -xdepart; x += taille + decalage) {
 		for (float y = ydepart; y > -ydepart; y -= taille + decalage) {
@@ -65,7 +59,11 @@ RubikCube::RubikCube(int size) {
 			}
 	}
 
+	textureMode = false;
+	filename[0] =  "box.png";
+	filename[1] =  "box2.png";
 
+	glDisable(GL_TEXTURE_2D);
 	//_tbTranche est un tableau de tranches (size*3  car x,y,z)
 	//_tbTranche[0] = new Tranche(0, _size, _tbCouleur);//axe des X
 	//_tbTranche[1] = new Tranche(1, _size, _tbCouleur);//axe des Y
@@ -91,14 +89,14 @@ void RubikCube::afficher() {
 					fl = true;
 					glPushMatrix();
 					glRotatef(tranches[j]->getAngle(), 1.0, 0.0, 0.0);
-					_tbCube[i]->afficher();
+					_tbCube[i]->afficher(textureMode);
 					glPopMatrix();
 
 				}
 			}
 		}
 		if (fl == false) {//si le cube n'appartient pas a tranche on fais pas de rotation
-			_tbCube[i]->afficher();
+			_tbCube[i]->afficher(textureMode);
 		}
 
 	}
@@ -168,5 +166,59 @@ int RubikCube::getAngle(int tranche){
 	return tranches[tranche]->getAngle();
 	//return this->rotationAngles[tranche];
 
+}
+
+void RubikCube::loadTexture(int index){
+
+	std::vector<unsigned char> image;
+	unsigned width, height;
+	unsigned error;
+
+	switch (index) {
+	case 0:
+		textureMode = false;
+		selectedTexture = 0;
+		glDisable(GL_TEXTURE_2D);
+		break;
+	case 1:
+		error = lodepng::decode(image, width, height, filename[0]);
+		if (error)
+			printf(lodepng_error_text(error));
+		else {
+			printf("Textures loaded");
+
+			textureMode = true;
+			selectedTexture = 1;
+			glEnable(GL_TEXTURE_2D);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); //GL_NEAREST = no smoothing
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA,
+			GL_UNSIGNED_BYTE, &image[0]);
+		}
+		break;
+	case 2:
+		error = lodepng::decode(image, width, height, filename[1]);
+		if (error)
+			printf(lodepng_error_text(error));
+		else {
+			printf("Textures loaded");
+
+			textureMode = true;
+			selectedTexture = 2;
+			glEnable(GL_TEXTURE_2D);
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); //GL_NEAREST = no smoothing
+			glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGBA,
+			GL_UNSIGNED_BYTE, &image[0]);
+		}
+
+		break;
+	default:
+		break;
+	}
+}
+
+int RubikCube::getSelectedtexture(){
+	return selectedTexture;
 }
 

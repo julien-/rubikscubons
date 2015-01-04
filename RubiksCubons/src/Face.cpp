@@ -75,15 +75,40 @@ vector<Point> Face::getTbPoints() {
 	return _tbPoints;
 }
 
-void Face::afficher() {
+void Face::afficher(bool modeTextures) {
+
+	if (modeTextures) {
+		glColor3f(255,255,255);
+		glBegin(GL_QUADS);
+		glTexCoord2d(0, 0);
+		glVertex3d(_tbPoints[0].getX(), _tbPoints[0].getY(),
+				_tbPoints[0].getZ());
+
+		glTexCoord2d(0, 1);
+		glVertex3d(_tbPoints[1].getX(), _tbPoints[1].getY(),
+				_tbPoints[1].getZ());
+		glTexCoord2d(1, 1);
+		glVertex3d(_tbPoints[2].getX(), _tbPoints[2].getY(),
+				_tbPoints[2].getZ());
+		glTexCoord2d(1, 0);
+		glVertex3d(_tbPoints[3].getX(), _tbPoints[3].getY(),
+				_tbPoints[3].getZ());
+
+		glEnd();
+		afficherContour(Couleur::noir());
+	} else {
 		glColor3f(_couleur.getR(), _couleur.getV(), _couleur.getB());
 		glBegin(GL_POLYGON);
 		for (int i = 0; i < 4; i++) {
-			glVertex3f(_tbPoints[i].getX(), _tbPoints[i].getY(),_tbPoints[i].getZ());
+			glVertex3f(_tbPoints[i].getX(), _tbPoints[i].getY(),
+					_tbPoints[i].getZ());
 		}
 		glEnd();
 		//Affichage des contours noirs
 		afficherContour(Couleur::noir());
+	}
+
+
 }
 
 void Face::afficherContour(Couleur c){

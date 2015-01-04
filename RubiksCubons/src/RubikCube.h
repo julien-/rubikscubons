@@ -15,6 +15,10 @@ private:
 	Tranche ** tranches;
 	int NTranches = 3;
 
+	const char* filename[2]; //Path to texture
+	bool textureMode;
+	int selectedTexture = 0;
+
 public:
 	RubikCube(int size);
 	virtual ~RubikCube();
@@ -27,6 +31,8 @@ public:
 	void Deplacement(GLfloat x, GLfloat y, GLfloat z);
 	void RotateTranche( int angle, int tranche);
 	int getAngle(int tranche);
+	void loadTexture(int index);
+	int getSelectedtexture();
 };
 
 #endif /* RUBIKCUBE_H_ */

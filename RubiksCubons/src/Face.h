@@ -30,7 +30,7 @@ public:
 	void setCouleur(Couleur couleur);
 	vector<Point> getTbPoints();
 	bool estFaitDe(Point p);
-	void afficher();
+	void afficher(bool modeTextures);
 	void afficherContour(Couleur c);
 
 };

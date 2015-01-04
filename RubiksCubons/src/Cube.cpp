@@ -43,11 +43,11 @@ Cube::Cube(float size, Point p0) {
 Cube::~Cube() {
 	_tbFace.~vector();
 }
-void Cube::afficher() {
+void Cube::afficher(bool textureMode) {
 	//Chaque face du cube se dessine
 	for (int i=0;i<6;i++)
 	{
-		_tbFace[i]->afficher();
+		_tbFace[i]->afficher(textureMode);
 	}
 }
 const vector<Face*> Cube::getTbFace() const {

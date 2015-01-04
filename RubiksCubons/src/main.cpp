@@ -53,18 +53,23 @@ RubikCube *rc = new RubikCube(Dimension);
 
 /*GESTION DES MENUS*/
 void selectDimension(int selection) {//selection de la taille du cube
+	int index;
   switch (selection) {
     case 11 :
-    	Dimension = 3 ;
+    	Dimension = 3;
+    	 index = rc->getSelectedtexture();
     	//rc->~RubikCube();
     	delete rc;
     	rc = new RubikCube(Dimension);
+    	rc->loadTexture(index);
               break ;
     case 12 :
-    	Dimension = 5 ;
+    	Dimension = 5;
+    	index = rc->getSelectedtexture();
     	//rc->~RubikCube();
     	delete rc;
 		rc = new RubikCube(Dimension);
+		rc->loadTexture(index);
               break ;
   }
   glutPostRedisplay();
@@ -310,6 +315,24 @@ void rotateSelection(int arg){
 	}
 
 }
+void selectTexture(int arg){
+	switch (arg) {
+	case 1://default
+		rc->loadTexture(0); //0 - no textures
+		glutPostRedisplay();
+		break;
+	case 2: //texture 1
+		rc->loadTexture(1);
+		glutPostRedisplay();
+		break;
+	case 3: //texture 2
+		rc->loadTexture(2);
+		glutPostRedisplay();
+		break;
+	default:
+		break;
+	}
+}
 int main(int argc,char **argv)
 {
   /* initialisation de glut et creation de la fenetre */
@@ -335,10 +358,10 @@ int main(int argc,char **argv)
 
    int menuCube = glutCreateMenu(selectModeCube);
            glutAddMenuEntry("Rotation",21);
-           glutAddMenuEntry("Dйplacement",22);
+           glutAddMenuEntry("Deplacement",22);
 
    int menuCamera = glutCreateMenu(selectModeCamera);
-			  glutAddMenuEntry("Centrйe sur la face active",31);
+			  glutAddMenuEntry("Centre sur la face active",31);
 			  glutAddMenuEntry("Haut gauche",32);
 
 	int menuRotate = glutCreateMenu(rotateSelection);
@@ -348,12 +371,20 @@ int main(int argc,char **argv)
 
 	int Menuanimation = glutCreateMenu(rotateSelection);
 		glutAddSubMenu("Rotate", menuRotate);
+
+	int MenuTextures = glutCreateMenu(selectTexture);
+		glutAddMenuEntry("Default", 1);
+		glutAddMenuEntry("Texture 1", 2);
+		glutAddMenuEntry("Texture 2", 3);
+
+
  /* on crйe ensuite le menu superieur et on lie les sous-menus  */
    glutCreateMenu(select);
         glutAddSubMenu("Dimension",menuDimension);
         glutAddSubMenu("Cube",menuCube);
         glutAddSubMenu("Camera",menuCamera);
         glutAddSubMenu("Animation",Menuanimation);
+        glutAddSubMenu("Textures", MenuTextures);
         glutAddMenuEntry("Quitter",0);
 
    /* On associe le choix du bouton gauche de la souris */
