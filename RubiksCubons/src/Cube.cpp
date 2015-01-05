@@ -32,7 +32,7 @@ Cube::Cube(float size, Point p0) {
 	Point p6 = Point(p2.getX(), 		p2.getY(), 		p4.getZ());
 	Point p7 = Point(p3.getX(), 		p3.getY(), 		p4.getZ());
 
-	_tbFace.push_back(new Face(p0, p1, p2, p3, Couleur::rouge(),1));	//devant nous
+	_tbFace.push_back(new Face(p0, p1, p2, p3, Couleur::rouge(),1));//devant nous
 	_tbFace.push_back(new Face(p0, p1, p5, p4, Couleur::vert(),2));//haut
 	_tbFace.push_back(new Face(p1, p5, p6, p2, Couleur::bleu(),3));//droite
 	_tbFace.push_back(new Face(p2, p6, p7, p3, Couleur::blanc(),4));//bas

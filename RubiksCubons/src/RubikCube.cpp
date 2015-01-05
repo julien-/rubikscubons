@@ -32,10 +32,11 @@ RubikCube::RubikCube(int size) {
 	//|/               |/
 	//p3---------------p2
 	float decalage = 0.01;//decalage >=0 modifie le centre de rotation du cube
-	float xdepart = -0.5 ;
-	float ydepart = 0.5;
+	float xdepart = -0.5;
+	float ydepart = 0.5 ;
 	float zdepart = -0.5 ;
-	float taille = 1.0 / size;//largeur d'un cube(size est le nombre de cube de large)
+	//float taille = (1.0 -(decalage*size))/size;// 1.0  /(size );//largeur d'un cube(size est le nombre de cube de large)
+	float taille = (1.0 - (decalage * (size-1))) / size;
 
 	for (float x = xdepart; x < -xdepart; x += taille + decalage) {
 		for (float y = ydepart; y > -ydepart; y -= taille + decalage) {
