@@ -27,6 +27,7 @@ public:
 	Face getFace(Face f);
 
 	void afficher(bool textureMode);
+	void setShining(bool arg);
 };
 
 #endif /* CUBE_H_ */

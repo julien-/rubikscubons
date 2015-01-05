@@ -3,6 +3,7 @@
 
 class Couleur {
 private:
+
 	float _r, _v, _b;
 public:
 	Couleur();
@@ -22,6 +23,11 @@ public:
 	static Couleur jaune();
 	static Couleur orange();
 	static Couleur noir();
+
+	static float * White4f();
+
+
+
 
 };
 

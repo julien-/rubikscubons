@@ -8,13 +8,24 @@ Face::Face(vector<Point> tbPoints, Couleur couleur) {
 			_tbPoints.push_back(tbPoints[i]);
 		}
 		_couleur = couleur;
+		mat_color[0] =_couleur.getR();
+		mat_color[1] =_couleur.getV();
+		mat_color[2] =_couleur.getB();
+		mat_color[3] = 1.0F;
+		isShining = false;
 }
-Face::Face(Point p1, Point p2, Point p3, Point p4, Couleur couleur) {
+Face::Face(Point p1, Point p2, Point p3, Point p4, Couleur couleur, int i) {
 		_tbPoints.push_back(p1);
 		_tbPoints.push_back(p2);
 		_tbPoints.push_back(p3);
 		_tbPoints.push_back(p4);
 		_couleur = couleur;
+		mat_color[0] = _couleur.getR();
+		mat_color[1] = _couleur.getV();
+		mat_color[2] = _couleur.getB();
+		mat_color[3] = 1.0F;
+		index = i;
+		isShining = false;
 }
 Face::~Face() {
 	_tbPoints.~vector();
@@ -77,9 +88,35 @@ vector<Point> Face::getTbPoints() {
 
 void Face::afficher(bool modeTextures) {
 
-	if (modeTextures) {
+	if (modeTextures) {//mode textures
+
+		glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, Couleur::White4f());
+
 		glColor3f(255,255,255);
+
 		glBegin(GL_QUADS);
+		switch (this->index) {
+						case 1:
+							  glNormal3f( 0.0f, 0.0f, -1.0f);
+							break;
+						case 2:
+							 glNormal3f( 0.0f, 1.0f, 0.0f);   // Нормаль вверх
+										break;
+						case 3:
+							 glNormal3f( 1.0f, 0.0f, 0.0f);   // Нормаль направлена вправо
+												break;
+						case 4:
+							glNormal3f( 0.0f,-1.0f, 0.0f);   // Нормаль направлена вниз
+												break;
+						case 5:
+							glNormal3f(-1.0f, 0.0f, 0.0f);   // Нормаль направлена влево
+												break;
+						case 6:
+							  glNormal3f( 0.0f, 0.0f,1.0f);   // Обратная нормаль
+												break;
+						default:
+							break;
+					}
 		glTexCoord2d(0, 0);
 		glVertex3d(_tbPoints[0].getX(), _tbPoints[0].getY(),
 				_tbPoints[0].getZ());
@@ -96,9 +133,46 @@ void Face::afficher(bool modeTextures) {
 
 		glEnd();
 		afficherContour(Couleur::noir());
-	} else {
+	} else {//mode sans texures
+
+		glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, mat_color);
+		if(isShining){
+			glMaterialfv(GL_FRONT, GL_SPECULAR, Couleur::White4f());
+			GLfloat sh[] = { 10.0F };
+			glMaterialfv(GL_FRONT, GL_SHININESS , sh);
+		}
+		else{
+			glMaterialfv(GL_FRONT, GL_SPECULAR, mat_color);
+			GLfloat sh[] = { 0.0F };
+			glMaterialfv(GL_FRONT, GL_SHININESS, sh);
+		}
+
+
 		glColor3f(_couleur.getR(), _couleur.getV(), _couleur.getB());
 		glBegin(GL_POLYGON);
+
+		switch (this->index) {
+					case 1:
+						  glNormal3f( 0.0f, 0.0f, -1.0f);
+						break;
+					case 2:
+						 glNormal3f( 0.0f, 1.0f, 0.0f);   // Нормаль вверх
+									break;
+					case 3:
+						 glNormal3f( 1.0f, 0.0f, 0.0f);   // Нормаль направлена вправо
+											break;
+					case 4:
+						glNormal3f( 0.0f,-1.0f, 0.0f);   // Нормаль направлена вниз
+											break;
+					case 5:
+						glNormal3f(-1.0f, 0.0f, 0.0f);   // Нормаль направлена влево
+											break;
+					case 6:
+						  glNormal3f( 0.0f, 0.0f,1.0f);   // Обратная нормаль
+											break;
+					default:
+						break;
+				}
 		for (int i = 0; i < 4; i++) {
 			glVertex3f(_tbPoints[i].getX(), _tbPoints[i].getY(),
 					_tbPoints[i].getZ());
@@ -112,9 +186,17 @@ void Face::afficher(bool modeTextures) {
 }
 
 void Face::afficherContour(Couleur c){
+
+
 	glColor3f(c.getR(), c.getV(), c.getB());
 	glLineWidth(4.5);
+
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, no_mat);
+	glMaterialfv(GL_FRONT, GL_SPECULAR , no_mat);
+
+
 	glBegin(GL_LINES);
+
 	//relie 0-1
 	glVertex3f(_tbPoints[0].getX(), _tbPoints[0].getY(),_tbPoints[0].getZ());
 	glVertex3f(_tbPoints[1].getX(), _tbPoints[1].getY(),_tbPoints[1].getZ());
@@ -145,4 +227,7 @@ bool operator==(Face const& f1, Face const& f2) {
 	 *
 	 */
 	return true;
+}
+void Face::setShining(bool arg){
+	isShining = arg;
 }

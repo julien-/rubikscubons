@@ -129,7 +129,40 @@ void affichage()
 {
 	/* effacement de l'image avec la couleur de fond */
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	glLoadIdentity();
+
+	/*GLfloat no_mat[] = { 0.0F, 0.0F, 0.0F, 0.0F };
+		GLfloat mat_ambient[] = { 0.7F, 0.7F, 0.7F, 1.0F };
+		GLfloat mat_ambient_color[] = { 0.8F, 0.8F, 0.2F, 1.0F };
+		GLfloat mat_diffuse[] = { 0.0F, 1.0F, 0.0F, 1.0F };
+		GLfloat mat_specular[] = { 0.0F, 0.0F, 1.0F, 1.0F };
+		GLfloat no_shininess[] = { 0.0F };
+		GLfloat low_shininess[] = { 5.0F };
+		GLfloat high_shininess[] = { 15.0F };
+		GLfloat mat_emission[] = { 0.3F, 0.2F, 0.2F, 0.0F };
+		GLfloat jaune[] = { 1.0F, 1.0F, 0.0F, 1.0F };
+
+		GLfloat amb[]  ={0.2, 0.2, 0.2, 1.0};
+		GLfloat diff[] = {0.8, 0.8, 0.8, 1.0};
+		GLfloat qsd[] = {0.0, 0.0, 0.0, 1.0};
+
+		GLfloat jaune2[] = { 1.0F, 1.0F, 0.0F, 0.1F };
+
+		glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+		    glMaterialf(GL_FRONT, GL_SHININESS, 128.0);
+		glMaterialfv(GL_FRONT, GL_AMBIENT, jaune);
+		glMaterialfv(GL_FRONT, GL_DIFFUSE, jaune);
+		glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+		glMaterialfv(GL_FRONT, GL_SHININESS, high_shininess);
+		glMaterialfv(GL_FRONT, GL_EMISSION, no_mat);
+
+
+		glutSolidTeapot(0.5);
+		*/
+
+
+
 	glPushMatrix();//Scene
 		//glTranslatef(rc->getCentre()->getX(),rc->getCentre()->getY(),rc->getCentre()->getZ());
 			glPushMatrix();//Observateur
@@ -138,10 +171,18 @@ void affichage()
 							camera_sensx, camera_sensy, camera_sensz//sens de ma tete(x,y,z)
 							);
 				glPushMatrix();//RubikCube
+
+
 					rc->Deplacement(Deplac_x, Deplac_y, Deplac_z);
+
 					rc->Rotation('x', -Angle_y);
 					rc->Rotation('y', -Angle_x);
+					 //glutSolidCube(1.2);
+					// glutSolidSphere(0.8,20,20);
 					rc->afficher();//Affichage
+
+
+
 				glPopMatrix();//RubikCube
 				glMatrixMode(GL_MODELVIEW);
 			glPopMatrix();//Observateur
@@ -333,6 +374,90 @@ void selectTexture(int arg){
 		break;
 	}
 }
+void menuLight(int arg){
+
+
+	GLfloat white[] = { 1.0F, 1.0F, 1.0F, 1.0F };
+	GLfloat blue[] = { 0.0F, 0.0F, 1.0F, 1.0F };
+	GLfloat green[] = { 0.0F, 1.0F, 0.0F, 1.0F };
+
+	GLfloat position_centre[] = { 0.0F, 0.0F, 1.0F, 0.0F };
+	GLfloat position_left[] = { -1.0F, 0.0F, 0.0F, 0.0F };
+	GLfloat position_right[] = { 0.7F, 0.0F, 0.0F, 1.0F };
+	GLfloat position_centre_color[] = { 0.0F, 0.0F, 0.8F, 0.0F };
+
+
+	switch (arg) {
+	case 44:
+		 glDisable(GL_LIGHTING);
+		 glDisable(GL_LIGHT0);
+		 glDisable(GL_LIGHT1);
+		 glDisable(GL_LIGHT2);
+		 glutPostRedisplay();
+		break;
+	case 11:
+
+		//glLightfv(GL_LIGHT0, GL_AMBIENT, blanc);
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, white);
+		glLightfv(GL_LIGHT0, GL_SPECULAR, white);
+		glLightfv(GL_LIGHT0, GL_POSITION, position_centre);
+
+		glEnable(GL_LIGHT0);
+		glEnable(GL_LIGHTING);
+		glutPostRedisplay();
+		break;
+	case 10:
+		glDisable(GL_LIGHT0);
+		glutPostRedisplay();
+		break;
+	case 21:
+		glLightfv(GL_LIGHT1, GL_AMBIENT, blue);
+		glLightfv(GL_LIGHT1, GL_DIFFUSE, blue);
+		glLightfv(GL_LIGHT1, GL_SPECULAR, white);
+		glLightfv(GL_LIGHT1, GL_POSITION, position_centre_color);
+
+		glEnable(GL_LIGHT1);
+		  glEnable(GL_LIGHTING);
+		glutPostRedisplay();
+		break;
+	case 20:
+		glDisable(GL_LIGHT1);
+		glutPostRedisplay();
+		break;
+	case 31:
+			glLightfv(GL_LIGHT2, GL_AMBIENT, green);
+			glLightfv(GL_LIGHT2, GL_DIFFUSE, green);
+			glLightfv(GL_LIGHT2, GL_SPECULAR, white);
+			glLightfv(GL_LIGHT2, GL_POSITION, position_right);
+			glEnable(GL_LIGHT2);
+			  glEnable(GL_LIGHTING);
+			glutPostRedisplay();
+			break;
+		case 30:
+		glDisable(GL_LIGHT2);
+		glutPostRedisplay();
+			break;
+	default:
+			break;
+	}
+
+}
+void menuMaterials(int arg){
+
+	switch (arg) {
+		case 1:
+			rc->setShining(true);
+			glutPostRedisplay();
+			break;
+		case 0:
+			rc->setShining(false);
+			glutPostRedisplay();
+				break;
+		default:
+			break;
+	}
+
+}
 int main(int argc,char **argv)
 {
   /* initialisation de glut et creation de la fenetre */
@@ -346,8 +471,9 @@ int main(int argc,char **argv)
   glClearColor(0.0,0.0,0.0,0.0);
   glColor3f(1.0,1.0,1.0);
   glPointSize(2.0);
-  glEnable(GL_DEPTH_TEST);
 
+  glEnable(GL_DEPTH_TEST);
+  glDepthFunc(GL_LESS);
 
   /*creation du menu */
 
@@ -377,6 +503,27 @@ int main(int argc,char **argv)
 		glutAddMenuEntry("Texture 1", 2);
 		glutAddMenuEntry("Texture 2", 3);
 
+		///==================================================
+	// Light
+	int menuLight1 = glutCreateMenu(menuLight);
+		glutAddMenuEntry("On", 11);
+		glutAddMenuEntry("Off", 10);
+	int menuLight2 = glutCreateMenu(menuLight);
+		glutAddMenuEntry("On", 21);
+		glutAddMenuEntry("Off", 20);
+	int menuLight3 = glutCreateMenu(menuLight);
+		glutAddMenuEntry("On", 31);
+		glutAddMenuEntry("Off", 30);
+	int MenuLight = glutCreateMenu(menuLight);
+		glutAddMenuEntry("Disable lighting", 44);
+		glutAddSubMenu("Light centre white", menuLight1);
+		glutAddSubMenu("Light centre blue", menuLight2);
+		glutAddSubMenu("Light right green", menuLight3);
+
+	//=========================================
+		int MenuMat= glutCreateMenu(menuMaterials);
+		glutAddMenuEntry("Enable shininess", 1);
+		glutAddMenuEntry("Disable shininess", 0);
 
  /* on crйe ensuite le menu superieur et on lie les sous-menus  */
    glutCreateMenu(select);
@@ -385,6 +532,8 @@ int main(int argc,char **argv)
         glutAddSubMenu("Camera",menuCamera);
         glutAddSubMenu("Animation",Menuanimation);
         glutAddSubMenu("Textures", MenuTextures);
+        glutAddSubMenu("Lights", MenuLight);
+        glutAddSubMenu("Materials", MenuMat);
         glutAddMenuEntry("Quitter",0);
 
    /* On associe le choix du bouton gauche de la souris */

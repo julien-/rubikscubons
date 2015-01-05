@@ -72,9 +72,15 @@ Couleur Couleur::jaune(){
 }
 
 Couleur Couleur::orange(){
-	return Couleur(1.0, 0.5, 0.0);
+	return Couleur(1.0, 0.3, 0.0);
 }
 
 Couleur Couleur::noir(){
 	return Couleur(0.0, 0.0, 0.0);
 }
+float white[4] = { 1.0F,1.0F,1.0F,1.0F };
+
+float * Couleur::White4f(void) {
+  return (white);
+}
+

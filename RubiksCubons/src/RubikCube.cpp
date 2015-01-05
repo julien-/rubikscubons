@@ -77,6 +77,8 @@ void RubikCube::afficher() {
 
 	glEnable(GL_LINE_SMOOTH);	//Active l'antialiasing pour les lignes
 
+
+
 	bool fl;
 	for (int i = 0; i < _tbCube.size(); ++i) {
 		fl = false;
@@ -220,5 +222,10 @@ void RubikCube::loadTexture(int index){
 
 int RubikCube::getSelectedtexture(){
 	return selectedTexture;
+}
+void RubikCube::setShining(bool arg){
+	for (int i = 0; i < _tbCube.size(); ++i) {
+		_tbCube[i]->setShining(arg);
+	}
 }
 

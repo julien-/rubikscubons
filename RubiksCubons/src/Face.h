@@ -1,7 +1,7 @@
 /*
  * Face.h
  *
- *  Created on: 19 déc. 2014
+ *  Created on: 19 dÐ¹c. 2014
  *      Author: Julien
  */
 
@@ -18,13 +18,19 @@ class Face {
 private:
 	vector<Point> _tbPoints;
 	Couleur _couleur;
+	bool isShining;
+	int index;
 public:
 	virtual ~Face();
 	Face(vector<Point> tbPoints, Couleur couleur);
-	Face(Point p1, Point p2, Point p3, Point p4, Couleur couleur);
+	Face(Point p1, Point p2, Point p3, Point p4, Couleur couleur, int i );
+
 	Point getPoint(int i);
 	Point getPoint(Point p);
 	Point getPoint(GLfloat x, GLfloat y, GLfloat z);
+	GLfloat mat_color[4];
+	GLfloat no_mat[4] = { 0.0F, 0.0F, 0.0F, 1.0F }; // utilise pour les lignes
+
 
 	Couleur getCouleur() const;
 	void setCouleur(Couleur couleur);
@@ -32,6 +38,7 @@ public:
 	bool estFaitDe(Point p);
 	void afficher(bool modeTextures);
 	void afficherContour(Couleur c);
+	void setShining(bool arg);
 
 };
 

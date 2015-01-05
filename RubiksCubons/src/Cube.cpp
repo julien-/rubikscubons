@@ -32,12 +32,12 @@ Cube::Cube(float size, Point p0) {
 	Point p6 = Point(p2.getX(), 		p2.getY(), 		p4.getZ());
 	Point p7 = Point(p3.getX(), 		p3.getY(), 		p4.getZ());
 
-	_tbFace.push_back(new Face(p0, p1, p2, p3, Couleur::rouge()));	//devant nous
-	_tbFace.push_back(new Face(p0, p1, p5, p4, Couleur::vert()));//haut
-	_tbFace.push_back(new Face(p1, p5, p6, p2, Couleur::bleu()));//droite
-	_tbFace.push_back(new Face(p2, p6, p7, p3, Couleur::blanc()));//bas
-	_tbFace.push_back(new Face(p3, p0, p4, p7, Couleur::jaune()));//gauche
-	_tbFace.push_back(new Face(p4, p5, p6, p7, Couleur::orange()));//arriere
+	_tbFace.push_back(new Face(p0, p1, p2, p3, Couleur::rouge(),1));	//devant nous
+	_tbFace.push_back(new Face(p0, p1, p5, p4, Couleur::vert(),2));//haut
+	_tbFace.push_back(new Face(p1, p5, p6, p2, Couleur::bleu(),3));//droite
+	_tbFace.push_back(new Face(p2, p6, p7, p3, Couleur::blanc(),4));//bas
+	_tbFace.push_back(new Face(p3, p0, p4, p7, Couleur::jaune(),5));//gauche
+	_tbFace.push_back(new Face(p4, p5, p6, p7, Couleur::orange(),6));//arriere
 }
 
 Cube::~Cube() {
@@ -47,6 +47,7 @@ void Cube::afficher(bool textureMode) {
 	//Chaque face du cube se dessine
 	for (int i=0;i<6;i++)
 	{
+
 		_tbFace[i]->afficher(textureMode);
 	}
 }
@@ -105,6 +106,12 @@ Cube::Cube(GLfloat x, GLfloat y, GLfloat z){
 	Point(largCube + decalage, -largCube + decalage, -largCube + decalage),	//bas gauche
 	tbCouleur[0], tbCouleur[1], tbCouleur[2], tbCouleur[3], tbCouleur[4], tbCouleur[5]);
 }*/
+void Cube::setShining(bool arg){
+	for (int i=0;i<6;i++)
+		{
+			_tbFace[i]->setShining(arg);
+		}
 
+}
 
 

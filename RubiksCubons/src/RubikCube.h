@@ -33,6 +33,7 @@ public:
 	int getAngle(int tranche);
 	void loadTexture(int index);
 	int getSelectedtexture();
+	void setShining(bool arg);
 };
 
 #endif /* RUBIKCUBE_H_ */
