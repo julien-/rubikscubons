@@ -16,6 +16,7 @@ using namespace std;
 class Cube {
 private:
 	vector<Face*> _tbFace;
+	Point position;
 public:
 	Cube(GLfloat x, GLfloat y, GLfloat z);
 	Cube(float size, Point p0);
@@ -28,6 +29,7 @@ public:
 
 	void afficher(bool textureMode);
 	void setShining(bool arg);
+	Point getPosition();
 };
 
 #endif /* CUBE_H_ */

@@ -14,10 +14,16 @@ private:
 
 	Tranche ** tranches;
 	int NTranches = 3;
+	int nbCubesInTranche;
 
 	const char* filename[2]; //Path to texture
 	bool textureMode;
 	int selectedTexture = 0;
+	int isCustomAnimPlaing; //0 =no, 1 = fisrt activated, 2 second is activated
+	float offset;
+	bool animationDirectionFlag;
+
+
 
 public:
 	RubikCube(int size);
@@ -34,6 +40,11 @@ public:
 	void loadTexture(int index);
 	int getSelectedtexture();
 	void setShining(bool arg);
+	void StartCustomtAnimation1();
+	void StartCustomtAnimation2();
+	void updateAnim(int animID);
+	void StopCustomAnimation();
+	float Random( float min, float max);
 };
 
 #endif /* RUBIKCUBE_H_ */

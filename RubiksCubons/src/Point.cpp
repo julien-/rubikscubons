@@ -6,6 +6,11 @@
  */
 
 #include "Point.h"
+Point::Point(){
+	_x = 0;
+		_y = 0;
+		_z = 0;
+}
 Point::Point(const Point &p) {
 	_x = p._x;
 	_y = p._y;

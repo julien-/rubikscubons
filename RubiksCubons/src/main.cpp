@@ -339,7 +339,27 @@ void trancheRotation(int tranche){
 	printf("RotationAngleOfTranche: %d \n", RotationAngleOfTranche);
 
 }
-void rotateSelection(int arg){
+void anim1(int arg){
+	int time = 80;
+	rc->updateAnim(1);
+	if (arg < 3000 / time)
+		glutTimerFunc(time, anim1, ++arg);
+	else
+		rc->StopCustomAnimation();
+
+	glutPostRedisplay();
+}
+void anim2(int arg) {
+	int time = 30;
+	rc->updateAnim(2);
+	if (arg < 5000 / time)
+		glutTimerFunc(time, anim2, ++arg);
+	else
+		rc->StopCustomAnimation();
+
+	glutPostRedisplay();
+}
+void menuAnimation(int arg){
 
 	switch (arg) {
 		case 1:
@@ -351,7 +371,16 @@ void rotateSelection(int arg){
 		case 3:
 			 glutTimerFunc(100,trancheRotation,2);
 			break;
-		default:
+		case 4:
+			rc->StartCustomtAnimation1();
+			 glutTimerFunc(100,anim1,0);
+		break;
+		case 5:
+			rc->StartCustomtAnimation2();
+			glutTimerFunc(100,anim2,0);
+			glutPostRedisplay();
+		break;
+	default:
 			break;
 	}
 
@@ -490,13 +519,15 @@ int main(int argc,char **argv)
 			  glutAddMenuEntry("Centre sur la face active",31);
 			  glutAddMenuEntry("Haut gauche",32);
 
-	int menuRotate = glutCreateMenu(rotateSelection);
+	int menuRotate = glutCreateMenu(menuAnimation);
 		glutAddMenuEntry("Tranche 1", 1);
 		glutAddMenuEntry("Tranche 2", 2);
 		glutAddMenuEntry("Tranche 3", 3);
 
-	int Menuanimation = glutCreateMenu(rotateSelection);
+	int Menuanimation = glutCreateMenu(menuAnimation);
 		glutAddSubMenu("Rotate", menuRotate);
+		glutAddMenuEntry("Custom 1", 4);
+		glutAddMenuEntry("Custom 2", 5);
 
 	int MenuTextures = glutCreateMenu(selectTexture);
 		glutAddMenuEntry("Default", 1);

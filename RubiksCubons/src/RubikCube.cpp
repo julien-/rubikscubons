@@ -1,9 +1,11 @@
 #include <cstdio>
 #include <new>
+#include <time.h>
 
 #include "Couleur.h"
 #include "Point.h"
 #include "helpers/lodepng.h"
+
 
 /*
  * RubikCube.cpp
@@ -46,7 +48,6 @@ RubikCube::RubikCube(int size) {
 		}
 	}
 
-	int nbCubesInTranche;
 	if (_size == 5) {
 		nbCubesInTranche = 25;
 	} else if (_size == 3)
@@ -64,6 +65,10 @@ RubikCube::RubikCube(int size) {
 	filename[0] =  "box.png";
 	filename[1] =  "box2.png";
 
+	isCustomAnimPlaing =false;
+	offset= 0.01;
+	animationDirectionFlag =false;
+
 	glDisable(GL_TEXTURE_2D);
 	//_tbTranche est un tableau de tranches (size*3  car x,y,z)
 	//_tbTranche[0] = new Tranche(0, _size, _tbCouleur);//axe des X
@@ -73,12 +78,60 @@ RubikCube::RubikCube(int size) {
 /////////////////////////////////////////////////:
 
 
-
+float RubikCube::Random( float min, float max){
+	float inv_rand_max = (FLOAT)1/RAND_MAX;
+    float fval=rand();
+       max-=min;
+       return ( fval*inv_rand_max*max + min );
+}
 void RubikCube::afficher() {
 
 	glEnable(GL_LINE_SMOOTH);	//Active l'antialiasing pour les lignes
 
 
+	if (isCustomAnimPlaing == 1) {//custom anim 1
+		glPushMatrix();
+		for (int i = 0; i < _tbCube.size(); ++i) {
+			glTranslatef(Random(-0.02, 0.02),Random(-0.02, 0.02),Random(-0.02, 0.02));
+			_tbCube[i]->afficher(textureMode);
+		}
+
+		glPopMatrix();
+		isCustomAnimPlaing =false;
+
+	} else if (isCustomAnimPlaing == 2) {//custom anim 2
+		int counter = 0;
+		bool isUp = false;
+
+		for (int i = 0; i < _tbCube.size(); ++i) {
+
+			if (counter == nbCubesInTranche) {
+				isUp = !isUp;
+				counter = 0;
+			}
+			counter++;
+
+			glPushMatrix();
+			if (isUp) {
+				glTranslatef(0.0, offset, 0.0);
+			} else {
+				glTranslatef(0.0, -offset, 0.0);
+			}
+			_tbCube[i]->afficher(textureMode);
+			glPopMatrix();
+
+			if (!animationDirectionFlag) {
+				offset = offset + 0.001;
+				if(offset >0.6)
+					animationDirectionFlag=!animationDirectionFlag;
+			}else {
+				offset = offset - 0.001;
+				if(offset <= -0.6)
+					animationDirectionFlag=!animationDirectionFlag;
+			}
+		}
+
+	} else {
 
 	bool fl;
 	for (int i = 0; i < _tbCube.size(); ++i) {
@@ -102,6 +155,7 @@ void RubikCube::afficher() {
 			_tbCube[i]->afficher(textureMode);
 		}
 
+	}
 	}
 
 }
@@ -227,6 +281,27 @@ int RubikCube::getSelectedtexture(){
 void RubikCube::setShining(bool arg){
 	for (int i = 0; i < _tbCube.size(); ++i) {
 		_tbCube[i]->setShining(arg);
+	}
+}
+
+void RubikCube::StopCustomAnimation(){
+	isCustomAnimPlaing = 0;
+}
+
+void RubikCube::StartCustomtAnimation1(){
+	isCustomAnimPlaing = 1;
+}
+
+void RubikCube::StartCustomtAnimation2(){
+	isCustomAnimPlaing = 2;
+}
+void  RubikCube::updateAnim(int animID){
+	if(animID ==1)
+	{
+		isCustomAnimPlaing= 1;
+	}
+	else if(animID == 2){
+		isCustomAnimPlaing = 2;
 	}
 }
 

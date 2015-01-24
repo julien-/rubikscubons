@@ -24,6 +24,9 @@ Cube::Cube(float size, Point p0) {
 	//| /              | /
 	//|/               |/
 	//p3---------------p2
+
+	position =  Point(p0.getX(), p0.getY(), p0.getZ());
+
 	Point p1 = Point(p0.getX()+size, 	p0.getY(), 			p0.getZ());
 	Point p2 = Point(p1.getX(), 		p1.getY()-size, 	p0.getZ());
 	Point p3 = Point(p0.getX(), 		p2.getY(), 		p0.getZ());
@@ -42,6 +45,9 @@ Cube::Cube(float size, Point p0) {
 
 Cube::~Cube() {
 	_tbFace.~vector();
+}
+Point Cube::getPosition(){
+	return this->position;
 }
 void Cube::afficher(bool textureMode) {
 	//Chaque face du cube se dessine
