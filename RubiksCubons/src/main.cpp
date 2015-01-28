@@ -25,9 +25,9 @@ GLfloat Mouse_plan_x, Mouse_plan_y;//NEW: Nouvelles coordonnйes de la souris da
 GLfloat Oldmouse_plan_x, Oldmouse_plan_y;//OLD: Anciennes coordonnйes de la souris dans le plan
 GLfloat Deplac_x, Deplac_y, Deplac_z;//ACTION:Position actuelle du centre de l'objet dans l'espace plan
 /*CAMERA*/
-GLfloat camera_posx = 1.0;
-GLfloat camera_posy = 1.0;
-GLfloat camera_posz = 4.0;
+GLfloat camera_posx = -2.0;
+GLfloat camera_posy = -2.0;
+GLfloat camera_posz = 10.0;
 GLfloat camera_directionx = 0.0;
 GLfloat camera_directiony = 0.0;
 GLfloat camera_directionz = 0.0;
